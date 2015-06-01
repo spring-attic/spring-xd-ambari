@@ -1,0 +1,86 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>io.pivotal</groupId>
+  <artifactId>springxd-plugin</artifactId>
+  <version>1.2</version>
+  <name>spring-plugin</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <base.dir>/var/lib/ambari-server/resources/stacks</base.dir>
+    <stack>PHD</stack>
+    <stacklowercase>phd</stacklowercase>
+    <version>3.0</version>
+    <release>1</release>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>rpm-maven-plugin</artifactId>
+        <version>2.0.1</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>rpm</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <copyright>2012-2015, Pivotal Software, Inc.</copyright>
+          <group>io.pivotal</group>
+          <name>springxd-plugin-${stacklowercase}</name>
+          <description>Spring XD plugin contains Ambari's stack definition for Spring XD service.</description>
+          <release>${release}</release>
+          <requires>
+            <require>ambari-server &gt;= 1.7</require>
+            <require>python &gt;= 2.6</require>
+          </requires>
+          <postinstallScriptlet>
+            <scriptFile>src/main/package/rpm/postinstall.sh</scriptFile>
+            <fileEncoding>utf-8</fileEncoding>
+          </postinstallScriptlet>
+          <preremoveScriptlet>
+            <scriptFile>src/main/package/rpm/preremove.sh</scriptFile>
+            <fileEncoding>utf-8</fileEncoding>
+          </preremoveScriptlet>
+          <mappings>
+            <mapping>
+              <directory>${base.dir}/${stack}/${version}/services</directory>
+              <sources>
+                <source>
+                  <location>src/main/resources/services</location>
+                </source>
+              </sources>
+            </mapping>
+          </mappings>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>phd</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <stack>PHD</stack>
+        <stacklowercase>phd</stacklowercase>
+        <version>3.0</version>
+      </properties>
+    </profile>
+    <profile>
+      <id>hdp</id>
+      <properties>
+        <stack>HDP</stack>
+        <stacklowercase>hdp</stacklowercase>
+        <version>2.2</version>
+      </properties>
+    </profile>
+  </profiles>
+</project>
+

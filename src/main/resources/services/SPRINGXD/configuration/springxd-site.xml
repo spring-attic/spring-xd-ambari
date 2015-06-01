@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<configuration supports_final="true">
+
+  <property>
+    <name>xd.transport</name>
+    <value> </value>
+    <description>XD messagebus</description>
+  </property>
+
+  <property>
+    <name>spring.redis.host</name>
+    <value> </value>
+    <description>Redis address hostname</description>
+  </property>
+
+  <property>
+    <name>spring.redis.port</name>
+    <value>6379</value>
+    <description>Redis address port</description>
+  </property>
+
+  <property>
+    <name>xd.messagebus.kafka.brokers</name>
+    <value> </value>
+    <description>Kafka brokers addresses</description>
+  </property>
+
+  <property>
+    <name>spring.rabbitmq.addresses</name>
+    <value> </value>
+    <description>Rabbit MQ addresses</description>
+  </property>
+
+  <property>
+    <name>server.port</name>
+    <value>9393</value>
+    <description>XD Admin server port</description>
+  </property>
+
+  <property>
+    <name>hsql.server.port</name>
+    <value>9101</value>
+    <description>HSQL server port</description>
+  </property>
+
+</configuration>

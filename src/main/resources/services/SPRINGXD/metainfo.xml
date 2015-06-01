@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+
+<metainfo>
+  <schemaVersion>2.0</schemaVersion>
+  <services>
+    <service>
+      <name>SPRINGXD</name>
+      <displayName>Spring XD</displayName>
+      <comment>Spring XD is a unified, distributed, and extensible system for data ingestion, real time analytics, batch processing, and data export.</comment>
+      <version>1.1</version>
+      <components>
+
+        <component>
+          <name>SPRINGXDADMIN</name>
+          <displayName>Spring XD Admin</displayName>
+          <category>MASTER</category>
+          <cardinality>1</cardinality>
+          <commandScript>
+            <script>scripts/springxd_admin.py</script>
+            <scriptType>PYTHON</scriptType>
+            <timeout>600</timeout>
+          </commandScript>
+          <dependencies>
+            <dependency>
+              <name>HDFS/HDFS_CLIENT</name>
+              <scope>host</scope>
+              <auto-deploy>
+                <enabled>true</enabled>
+              </auto-deploy>
+            </dependency>
+            <dependency>
+              <name>SPRINGXD/SPRINGXDHSQL</name>
+              <scope>host</scope>
+              <auto-deploy>
+                <enabled>true</enabled>
+                <co-locate>SPRINGXD/SPRINGXDHSQL</co-locate>
+              </auto-deploy>
+            </dependency>
+          </dependencies>
+        </component>
+
+        <component>
+          <name>SPRINGXDCONTAINER</name>
+          <displayName>Spring XD Container</displayName>
+          <category>SLAVE</category>
+          <cardinality>1+</cardinality>
+          <commandScript>
+            <script>scripts/springxd_container.py</script>
+            <scriptType>PYTHON</scriptType>
+            <timeout>600</timeout>
+          </commandScript>
+        </component>
+
+        <component>
+          <name>SPRINGXDSHELL</name>
+          <displayName>Spring XD Shell</displayName>
+          <category>CLIENT</category>
+          <cardinality>1+</cardinality>
+          <commandScript>
+            <script>scripts/springxd_shell.py</script>
+            <scriptType>PYTHON</scriptType>
+            <timeout>600</timeout>
+          </commandScript>
+        </component>
+
+        <component>
+          <name>SPRINGXDHSQL</name>
+          <displayName>Spring XD HSQL Database</displayName>
+          <category>MASTER</category>
+          <cardinality>0-1</cardinality>
+          <commandScript>
+            <script>scripts/springxd_hsql.py</script>
+            <scriptType>PYTHON</scriptType>
+            <timeout>600</timeout>
+          </commandScript>
+        </component>
+
+      </components>
+
+      <requiredServices>
+          <service>HDFS</service>
+          <service>ZOOKEEPER</service>
+      </requiredServices>
+
+      <configuration-dependencies>
+        <config-type>springxd-site</config-type>
+        <config-type>springxd-admin-env</config-type>
+        <config-type>springxd-container-env</config-type>
+      </configuration-dependencies>
+
+      <osSpecifics>
+        <osSpecific>
+          <osFamily>any</osFamily>
+           <packages>
+            <package>
+              <name>spring-xd</name>
+            </package>
+          </packages>
+        </osSpecific>
+      </osSpecifics>
+
+    </service>
+
+  </services>
+</metainfo>
+

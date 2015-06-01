@@ -1,0 +1,112 @@
+{#
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#}
+
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+xd:
+  transport: {{xd_transport}}
+  messagebus:
+{% if kafka_installed %}
+    kafka:
+      brokers: {{xd_messagebus_kafka_brokers}}
+      zkAddress: {{zk_server}}:{{zk_port}}
+{% endif %}
+
+{% if redis_installed %}
+---
+spring:
+  redis:
+   port: {{spring_redis_port}}
+   host: {{spring_redis_host}}
+{% endif %}
+
+{% if rabbitmq_installed %}
+---
+spring:
+  rabbitmq:
+   addresses: {{spring_rabbitmq_addresses}}
+   username: guest
+   password: guest
+   virtual_host: /
+   useSSL: false
+   sslProperties:
+
+{% endif %}
+---
+spring:
+  profiles: container
+server:
+  port: 0
+
+---
+spring:
+  profiles: admin
+server:
+  port: {{admin_port}}
+
+---
+spring:
+  datasource:
+    url: jdbc:hsqldb:hsql://{{hsql_server}}:{{hsql_port}}/xdjob
+    username: sa
+    password:
+    driverClassName: org.hsqldb.jdbc.JDBCDriver
+    validationQuery: select 1 from INFORMATION_SCHEMA.SYSTEM_USERS
+
+---
+spring:
+  hadoop:
+    fsUri: {{fs_defaultfs}}
+    resourceManagerAddress: {{yarn_rm_address}}
+    resourceManagerHost: {{yarn_rm_address_host}}
+    resourceManagerPort: {{yarn_rm_address_port}}
+    resourceManagerSchedulerAddress: {{yarn_rm_scheduler_address}}
+    jobHistoryAddress: {{job_history_address}}
+    yarnApplicationClasspath: {{yarn_app_classpath}}
+    config:
+      yarn.resourcemanager.scheduler.address: {{yarn_rm_scheduler_address}}
+      mapreduce.application.framework.path: /{{stack_name}}/apps/{{stack_version}}/mapreduce/mapreduce.tar.gz#mr-framework
+      mapreduce.application.classpath: {{mr_app_classpath}}
+
+---
+zk:
+  namespace: xd
+  client:
+     connect: {{zk_server}}:{{zk_port}}
+     sessionTimeout: 60000
+     connectionTimeout: 30000
+     initialRetryWait: 1000
+     retryMaxAttempts: 3
+
+---
+{% for key, value in configurations|dictsort if value|length > 1 %}
+{{key}} : {{ escape_yaml_property(value) }}
+{% endfor %}
+
