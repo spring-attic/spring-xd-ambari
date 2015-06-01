@@ -1,0 +1,41 @@
+Installing Pivotal HD 3.0 on single-node VM using Ambari
+========================================================
+
+== Preparations
+
+First we need a VM to work with. Follow the instructions in link:PreparingVMforAmbari.asciidoc[]
+
+== Installing Ambari Server
+
+We can follow steps 2.2 through 2.8 from the link:http://pivotalhd.docs.pivotal.io/docs/install-ambari.html#installing-ambari-server[Pivotal Ambari Installation Guide]
+
+== Create Hadoop Cluster
+
+We can follow steps 3.2 through 3.6 from the link:http://pivotalhd.docs.pivotal.io/docs/install-ambari.html#install-cluster[Pivotal Ambari Installation Guide]
+
+I installed the PHD-3.0.0.0 and PHD-UTILS-1.1.0 stacks.
+
+My Repository settings are (`hawaii` is the hostname for my YUM repo machine):
+
+[width="80%",cols=">s,1m,2m",frame="topbot"]
+|=====================================
+|redhat6 |PHD-3.0             |http://hawaii/PHD-3.0.0.0
+|        |PHD-UTILS-1.1.0.20  |http://hawaii/PHD-UTILS-1.1.0.20
+|=====================================
+
+I configured my single-node VMs hostname as the only host.
+
+For the SSH Private key I used the one we generated on the VM. Just run this and cut-and-paste the key:
+
+[source]
+----
+# cat .ssh/id_dsa
+----
+
+I ignored the warning about my hostname not beeing a FQDN.
+
+For services to install I picked "HDFS", "YARN + MapReduce2", "Nagios", "Ganglia" and "ZooKeeper". Everything ends up on the single node.
+
+You need to set password and alert email for Nagios.
+
+The Hadoop cluster should now be operational.

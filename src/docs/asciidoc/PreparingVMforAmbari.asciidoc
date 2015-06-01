@@ -1,0 +1,236 @@
+Preparing a CentOS single-node VM for use with Ambari
+=====================================================
+
+== Preparations
+
+First we need a VM to work with. I'm using VirtualBox but VMware would work as well.
+
+=== Install VirtualBox 
+
+link:https://www.virtualbox.org/[VirtualBox] is free open source virtualization software that allows you to easily create virtual machines. We will be using it to create a VM for our installation. Download the package for your operating system from link:https://www.virtualbox.org/wiki/Downloads[https://www.virtualbox.org/wiki/Downloads]. Follow the installation instruction that correspond to your operating system.
+
+Once you have VirtualBox installed and up and running we can create our virtual machine.
+
+=== Create a CentOS VM
+
+You can download the Centos 6.5 64-bit ISO from one of the mirrors at link:http://mirror.centos.org/centos/6/isos/x86_64/[http://mirror.centos.org/centos/6/isos/x86_64/].
+
+Create a new VM with 8GB of memory and 60GB of disk space if you have this available. You can try allocating only 4GB of memory if you are low on resources. Before starting the VM, attach the Live CD image you downloaded to the CD/DVD drive of the new VM. You should also create two network adapters, "Adapter 1" set to "Host-only Adapter" and "Adapter 2" using "NAT" (If you haven't already created a "Host-only Network", you should do that first, under the VirtualBox Preferences Network tab). 
+
+Now, start the VM and install a "Basic Server". Choose a hostname during the install. I picked 'hawaii' as the hostname for my server.
+
+Once the install is complete and you reboot the server you can log in as root.
+
+=== Configure the new VM
+
+==== Configure networking
+
+Log in as root. In a "Basic Server" install the nework adapters aren't enabled by default so we need to do this. Modify the `/etc/sysconfig/network-scripts/ifcfg-eth0` and `/etc/sysconfig/network-scripts/ifcfg-eth1` files. Change the boot setting to `ONBOOT=yes` for both files so the adapters are enabled when we boot. When this is done just enter the `reboot` command. Once you log back in you should see both adapters available when entering the `ifconfig` command. Make note of the IP address of the eth0 interface, we will need that to access the VM from the host machine and we will also use that network for our Ambari configuration.
+
+[source]
+----
+# hostname
+hawaii
+# ifconfig
+eth0      Link encap:Ethernet  HWaddr 08:00:27:29:AA:15  
+          inet addr:192.168.59.103  Bcast:192.168.59.255  Mask:255.255.255.0
+          inet6 addr: fe80::a00:27ff:fe29:aa15/64 Scope:Link
+...
+----
+
+We'll add eth0 IP address and `hostname` to `\etc\hosts`:
+
+[source]
+----
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+192.168.59.103	hawaii
+----
+
+
+==== Verify SSH settings
+
+Check that the `sshd` service is running and enabled on boot:
+
+[source]
+----
+# service sshd status
+# chkconfig --list sshd
+----
+
+If it is not then run these commands:
+
+[source]
+----
+# chkconfig sshd on
+# service sshd start
+----
+
+==== Connect with SSH from host machine
+
+Now we can log out and SSH to the server from a terminal on the host machine.
+
+[source]
+----
+$ ssh root@<ip-for-eth0>
+----
+
+I prefer to work from a host terminal's SSH session since I can cut-and-paste much easier.
+
+=== Preparing for Ambari
+
+==== Update OpenSSL
+
+Update the installed OpenSSL package using:
+
+[source]
+----
+# yum -y update openssl
+----
+
+==== Set up Password-less SSH 
+
+In order to connect using SSH without a password we need to generate and store our SSH certificates in the `.ssh/autorized_keys` file on the local system. We can use `ssh-keygen` for this. Log in as root and run:
+
+[source]
+----
+# ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa 
+# cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys
+# chmod 600 ~/.ssh/authorized_keys
+----
+
+We should now be able to create an SSH connection to `hostname` without being prompted for a password (if you get a prompt for adding the host to the known hosts file, just enter 'yes'):
+
+[source]
+----
+[root@hawaii ~]# ssh `hostname`
+The authenticity of host 'hawaii (192.168.59.103)' can't be established.
+RSA key fingerprint is bd:d3:af:84:89:08:25:ce:ee:f1:02:f8:db:eb:06:5a.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'hawaii,192.168.59.103' (RSA) to the list of known hosts.
+Last login: Thu May 28 13:20:13 2015 from hawaii
+[root@hawaii ~]# exit
+logout
+Connection to hawaii closed.
+----
+
+==== Enable ntpd
+
+Ambari needs time to be synchronized so we need to enable ntpd.
+
+[source]
+----
+# chkconfig ntpd on
+# ntpdate pool.ntp.org
+# service ntpd start
+----
+
+
+==== Disable iptables
+
+A number of network ports need to be open on the VM for Ambari during setup. The easiest way to open the ports is to disable the iptables process:
+
+[source]
+----
+# service iptables stop
+# chkconfig iptables off
+----
+
+==== Disable SELinux and Check umask Value
+
+To disable SELinux during the Ambari setup:
+
+[source]
+----
+# setenforce 0
+----
+
+To permanently disable SELinux for the VM modify `/etc/sysconfig/selinux` and change the config to `SELINUX=disabled`.
+
+Also, make sure umask is set to 0022 (it should be for a new install)
+
+[source]
+----
+# umask
+0022
+----
+
+==== Disable IPv6
+
+Log in as root and cut-and-paste the following commands into your terminal window to disable IPv6:
+
+[source]
+----
+mkdir -p /etc/sysctl.d
+( cat > /etc/sysctl.d/99-hadoop-ipv6.conf <<-'EOF'
+## Disabled ipv6
+## Provided by Ambari Bootstrap
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+net.ipv6.conf.lo.disable_ipv6 = 1
+EOF
+    )
+sysctl -e -p /etc/sysctl.d/99-hadoop-ipv6.conf
+----
+
+==== Disable Transparent Huge Pages (THP)
+
+When installing Ambari, one or more host checks may fail if you have not disabled Transparent Huge Pages on all hosts. 
+
+To disable THP log in as root and add the following commands to your `/etc/rc.local` file:
+
+[source]
+----
+if test -f /sys/kernel/mm/redhat_transparent_hugepage/defrag;
+  then echo never > /sys/kernel/mm/redhat_transparent_hugepage/defrag 
+fi
+if test -f /sys/kernel/mm/redhat_transparent_hugepage/enabled;
+  then echo never > /sys/kernel/mm/redhat_transparent_hugepage/enabled 
+fi
+----
+
+
+To confirm, reboot the host and then run the command:
+
+[source]
+----
+# cat /sys/kernel/mm/transparent_hugepage/enabled
+always madvise [never]
+----
+
+==== Install httpd
+
+We need to have the web server running so log in as root and install it with the following commands:
+
+[source]
+----
+yum -y install httpd
+----
+
+We'll set the ServerName to be `${hostname}:80` in `/etc/httpd/conf/httpd.conf`
+
+[source]
+----
+#
+# ServerName gives the name and port that the server uses to identify itself.
+# This can often be determined automatically, but we recommend you specify
+# it explicitly to prevent problems during startup.
+#
+# If this is not set to valid DNS name for your host, server-generated
+# redirections will not work.  See also the UseCanonicalName directive.
+#
+# If your host doesn't have a registered DNS name, enter its IP address here.
+# You will have to access it by its address anyway, and this will make
+# redirections work in a sensible way.
+#
+ServerName ${hostname}:80
+----
+
+Now we can start the httpd server.
+
+[source]
+----
+chkconfig httpd on
+service httpd start
+----

@@ -1,0 +1,85 @@
+Installing Hortonworks HDP 2.2 on single-node VM using Ambari
+=============================================================
+
+== Preparations
+
+First we need a VM to work with. Follow the instructions in link:PreparingVMforAmbari.asciidoc[]
+
+== Installing Ambari Server
+
+=== Setup Ambari YUM repo
+
+Get the `ambari.repo` definition. 
+
+For Ambari 1.7.0 use:
+
+[source]
+----
+wget -nv http://public-repo-1.hortonworks.com/ambari/centos6/1.x/updates/1.7.0/ambari.repo -O /etc/yum.repos.d/ambari.repo
+----
+
+Check that we have the Ambari repo listed as part of YUM repos:
+
+[source]
+----
+yum repolist
+----
+
+=== Install Ambari server packages
+
+Run the YUM install command (answer Y to all prompts):
+
+[source]
+----
+yum install ambari-server
+----
+
+=== Configure and start the Ambari server
+
+Run the setup command:
+
+[source]
+----
+ambari-server setup
+----
+
+Now, start the Ambari server:
+
+[source]
+----
+ambari-server start
+----
+
+You can now connect to Ambari server on port 8080, username is `admin` and password is `admin`.
+
+
+== Create Hadoop Cluster
+
+From the Ambari Dashboard click the `Launch Install Wizard` link.
+
+I configured my single-node VMs hostname as the only host.
+
+For the SSH Private key I used the one we generated on the VM. Just run this and cut-and-paste the key:
+
+[source]
+----
+# cat .ssh/id_dsa
+----
+
+I ignored the warning about my hostname not beeing a FQDN.
+
+For services to install I picked "HDFS", "YARN + MapReduce2", "Nagios", "Ganglia", "Kafka" and "ZooKeeper". Everything ends up on the single node.
+
+You need to set password and alert email for Nagios.
+
+The install should succeed with 1 warning - "MapReduce2 Service Check" (File does not exist: hdfs://oahu:8020/hdp/apps/2.2.4.2-2/mapreduce/mapreduce.tar.gz)
+
+To overcome this, do the following:
+
+[source]
+----
+HADOOP_USER_NAME=hdfs hdfs dfs -mkdir -p /hdp/apps/2.2.4.2-2/mapreduce/
+HADOOP_USER_NAME=hdfs hdfs dfs -copyFromLocal /usr/hdp/2.2.4.2-2/hadoop/mapreduce.tar.gz /hdp/apps/2.2.4.2-2/mapreduce/
+----
+
+The Hadoop cluster should now be operational.
