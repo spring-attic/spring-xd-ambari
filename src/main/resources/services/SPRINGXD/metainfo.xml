@@ -7,7 +7,7 @@
       <name>SPRINGXD</name>
       <displayName>Spring XD</displayName>
       <comment>Spring XD is a unified, distributed, and extensible system for data ingestion, real time analytics, batch processing, and data export.</comment>
-      <version>1.1</version>
+      <version>1.2</version>
       <components>
 
         <component>
