@@ -7,7 +7,7 @@ For instructions to set up a single-node VM using Pivotal Ambari and Pivotal HD 
 
 For instructions to set up a single-node VM using Hortonworks Ambari and HDP 2.2 see link:InstallingHDPwithAmbari.asciidoc[Installing Hortonworks HDP 2.2 on single-node VM using Ambari]
 
-IMPORTANT: This is still a work-in-progress and these packages have not yet been released.
+IMPORTANT: We currently have a Release Candidate build available. Please try it and report any issues using the link:https://github.com/spring-projects/spring-xd-ambari/issues[GitHub issue tracking for the project].
 
 === Preparing HDFS directories
 
@@ -73,7 +73,7 @@ HADOOP_USER_NAME=<owner-of-directory> hdfs dfs -chmod 777 /tmp/hadoop-yarn/stagi
 
 === Copying and installing Spring XD files
 
-Copy the `SPRINGXD-1.2-1.tar` file to the YUM repository machine. I'm copying the file to a the `/staging` directory.
+Download the Spring XD Ambari plugin from the Spring Repository (link:http://repo.spring.io/libs-milestone-local/org/springframework/xd/spring-xd/1.2.0.RC1/SPRINGXD-1.2-1.tar[http://repo.spring.io/libs-milestone-local/org/springframework/xd/spring-xd/1.2.0.RC1/SPRINGXD-1.2-1.tar]) and copy it to the YUM repository machine for your Ambari installation. We're copying the file to a the `/staging` directory.
 
 If you don't already have a `/staging` directory you can create it using:
 
