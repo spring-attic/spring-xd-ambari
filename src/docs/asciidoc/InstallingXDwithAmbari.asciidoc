@@ -131,7 +131,7 @@ We now need to restart the Ambari server to pick up this new plugin:
 
 === Install Redis 
 
-You can build Redis from source or you can use RPMs that are available from the link:https://fedoraproject.org/wiki/EPEL[EPEL] project. Source is available from the link:http://redis.io/download[Redis download] page. Redis source will also be installed in the `/opt/pivotal/spring-xd/redis` directory. Here we'll use the RPM packages. 
+You can build Redis from source or you can use RPMs that are available from the link:https://fedoraproject.org/wiki/EPEL[EPEL] project. Source is available from the link:http://redis.io/download[Redis download] page. Here we'll use the RPM packages. 
 
 We need to add a Fedora YUM repo for Redis and then install it:
 
