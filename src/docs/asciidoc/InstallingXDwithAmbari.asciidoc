@@ -275,6 +275,7 @@ To start the XD Shell, enter the following command on the host where the Spring 
 
 [source]
 ----
+# export JAVA_HOME=/usr/jdk64/jdk1.7.0_67
 # xd-shell
 ----
 
