@@ -78,8 +78,8 @@ To overcome this, do the following:
 
 [source]
 ----
-HADOOP_USER_NAME=hdfs hdfs dfs -mkdir -p /hdp/apps/2.2.4.2-2/mapreduce/
-HADOOP_USER_NAME=hdfs hdfs dfs -copyFromLocal /usr/hdp/2.2.4.2-2/hadoop/mapreduce.tar.gz /hdp/apps/2.2.4.2-2/mapreduce/
+# HADOOP_USER_NAME=hdfs hdfs dfs -mkdir -p /hdp/apps/2.2.4.2-2/mapreduce/
+# HADOOP_USER_NAME=hdfs hdfs dfs -copyFromLocal /usr/hdp/2.2.4.2-2/hadoop/mapreduce.tar.gz /hdp/apps/2.2.4.2-2/mapreduce/
 ----
 
 The Hadoop cluster should now be operational.

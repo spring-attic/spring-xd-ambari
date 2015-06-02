@@ -9,6 +9,68 @@ For instructions to set up a single-node VM using Hortonworks Ambari and HDP 2.2
 
 IMPORTANT: This is still a work-in-progress and these packages have not yet been released.
 
+=== Preparing HDFS directories
+
+There are certain directories that need to have the correct permissions for everything to work smoothly.
+
+Check the permissions of a directory using:
+
+[source]
+----
+hdfs dfs -ls <directory>
+----
+
+==== HDFS `/user` directory
+
+Check the permission for the HDFS `/user` directory. If the directory doesn't exist create it with:
+
+[source]
+----
+HADOOP_USER_NAME=hdfs hdfs dfs -mkdir /user
+----
+
+If you just created the directory or the permissions aren't `drwxrwxrwx` then set the permissions using:
+
+[source]
+----
+HADOOP_USER_NAME=hdfs hdfs dfs -chmod 777 /user
+----
+
+==== HDFS `/tmp/yarn` directory
+
+Check the permission for the HDFS `/tmp/yarn` directory. If the directory doesn't exist create it with:
+
+[source]
+----
+HADOOP_USER_NAME=yarn hdfs dfs -mkdir /tmp/yarn
+----
+
+If you just created the directory or the permissions aren't `drwxrwxrwx` then set the permissions using:
+
+[source]
+----
+HADOOP_USER_NAME=yarn hdfs dfs -chmod 777 /tmp/yarn
+----
+
+==== HDFS `/tmp/hadoop-yarn/staging/history` directory
+
+Check the permission for the HDFS `/tmp/hadoop-yarn/staging/history` directory. If the directory doesn't exist create it and set the permissions with:
+
+[source]
+----
+HADOOP_USER_NAME=yarn hdfs dfs -mkdir -p /tmp/hadoop-yarn/staging/history
+HADOOP_USER_NAME=yarn hdfs dfs -chmod -R 777 /tmp/hadoop-yarn
+----
+
+If the permissions aren't `drwxrwxrwx` then set the permissions, with HADOOP_USER_NAME set as the owner of the directory, using:
+
+[source]
+----
+HADOOP_USER_NAME=<owner-of-directory> hdfs dfs -chmod 777 /tmp/hadoop-yarn
+HADOOP_USER_NAME=<owner-of-directory> hdfs dfs -chmod 777 /tmp/hadoop-yarn/staging
+HADOOP_USER_NAME=<owner-of-directory> hdfs dfs -chmod 777 /tmp/hadoop-yarn/staging/history
+----
+
 === Copying and installing Spring XD files
 
 Copy the `SPRINGXD-1.2-1.tar` file to the YUM repository machine. I'm copying the file to a the `/staging` directory.
@@ -81,14 +143,14 @@ We need to add a Fedora YUM repo for Redis and then install it:
 # chkconfig redis on
 ----
 
-Modify `/etc/redis.conf`, change the `bind` setting to be `${hostname}`:
+Modify `/etc/redis.conf`, comment out the `bind` setting to have the server listen on all interfaces:
 
 [source]
 ----
 # If you want you can bind a single interface, if the bind option is not
 # specified all the interfaces will listen for incoming connections.
 #
-bind ${hostname}
+#bind 127.0.0.1
 ----
 
 After this we can start Redis:
@@ -159,7 +221,9 @@ Open the Ambari UI and log in as `admin`. From the Dashboard click on "Actions +
 
 Under "Customize Services" we will need to make a few changes in the "Advanced springxd-site" section depending on which transport and distribution we are using.
 
-.When using Pivotal HD with Kafka as transport:
+NOTE: All empty fields on this screen actually contain a blank space character. When you enter a value in an empty field, be sure to erase this blank space character before entering the value.
+
+.When using Kafka as transport:
 ************************************************
 [width="95%",cols="1m,3m",frame="topbot"]
 |=====================================
@@ -169,20 +233,6 @@ Under "Customize Services" we will need to make a few changes in the "Advanced s
 |spring.redis.host           | <hostname where redis is running>
 |spring.redis.port           | 6379
 |xd.messagebus.kafka.brokers | <hostname where kafka is running>:<port for kafka:9092>
-|xd.transport                | kafka
-|=====================================
-************************************************
-
-.When using Hortonworks HDP with Kafka as transport:
-************************************************
-[width="95%",cols="1m,3m",frame="topbot"]
-|=====================================
-|hsql.server.port            | 9101
-|server.port                 | 9393
-|spring.rabbitmq.addresses   |
-|spring.redis.host           | <hostname where redis is running>
-|spring.redis.port           | 6379
-|xd.messagebus.kafka.brokers | _(leave this blank, Ambari plug-in will fill in the host and port)_
 |xd.transport                | kafka
 |=====================================
 ************************************************
@@ -225,7 +275,7 @@ To start the XD Shell, enter the following command on the host where the Spring 
 
 [source]
 ----
-xd-shell
+# xd-shell
 ----
 
 Now, from the XD Shell run the following commands:
@@ -273,4 +323,4 @@ xd:>hadoop fs cat /xd/tictoc/*
 
 NOTE: [green yellow-background big]*That's it -- have fun!*
 
-TIP: Just in case, Spring XD logs are in `var/log/springxd`.
+TIP: Just in case, Spring XD logs are in `var/log/springxd` on each host.
