@@ -14,11 +14,11 @@ which can be used with `PHD` or `HDP` respectively.
 
 More detailed instructions using Ambari with PHD and HDP:
 
-[Preparing a CentOS single-node VM for use with Ambari](docs/asciidoc/PreparingVMforAmbari.asciidoc)
+[Preparing a CentOS single-node VM for use with Ambari](src/docs/asciidoc/PreparingVMforAmbari.asciidoc)
 
-[Installing Pivotal HD 3.0 on single-node VM using Ambari](docs/asciidoc/InstallingPHDwithAmbari.asciidoc)
+[Installing Pivotal HD 3.0 on single-node VM using Ambari](src/docs/asciidoc/InstallingPHDwithAmbari.asciidoc)
 
-[Installing Hortonworks HDP 2.2 on single-node VM using Ambari](docs/asciidoc/InstallingHDPwithAmbari.asciidoc)
+[Installing Hortonworks HDP 2.2 on single-node VM using Ambari](src/docs/asciidoc/InstallingHDPwithAmbari.asciidoc)
 
-[Installing Spring XD using Ambari](docs/asciidoc/InstallingXDwithAmbari.asciidoc)
+[Installing Spring XD using Ambari](src/docs/asciidoc/InstallingXDwithAmbari.asciidoc)
 
