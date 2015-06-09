@@ -1,0 +1,53 @@
+buildscript {
+	repositories {
+		jcenter()
+	}
+
+	dependencies {
+		classpath 'com.netflix.nebula:gradle-ospackage-plugin:2.2.6'
+	}
+}
+
+apply plugin: 'os-package'
+apply plugin: 'rpm'
+
+buildDeb.enabled = false
+buildRpm.enabled = false
+
+ospackage {
+	version = '1.2'
+	release = 1
+	arch = NOARCH
+	os = LINUX
+	packageDescription = 'Spring XD plugin contains Ambari\'s stack definition for Spring XD service.'
+	packageGroup = 'io.pivotal'
+	license = '2012-2015, Pivotal Software, Inc.'
+
+	requires('ambari-server', '1.7', GREATER | EQUAL)
+	requires('python', '2.6', GREATER | EQUAL)
+
+	postInstall file('src/main/package/rpm/postinstall.sh')
+	preUninstall file('src/main/package/rpm/preremove.sh')
+
+	into '/var/lib/ambari-server/resources/stacks'
+
+}
+
+task phd30Rpm(type: Rpm) {
+	packageName = 'springxd-plugin-phd'
+	from('src/main/resources/services') {
+		into 'PHD/3.0/services'
+	}
+}
+
+task hdp22Rpm(type: Rpm) {
+	packageName = 'springxd-plugin-hdp'
+	from('src/main/resources/services') {
+		into 'HDP/2.2/services'
+	}
+}
+
+task dist {
+	dependsOn phd30Rpm, hdp22Rpm
+}
+
