@@ -94,6 +94,15 @@ spring:
       yarn.resourcemanager.scheduler.address: {{yarn_rm_scheduler_address}}
       mapreduce.application.framework.path: /{{stack_name}}/apps/{{stack_version}}/mapreduce/mapreduce.tar.gz#mr-framework
       mapreduce.application.classpath: {{mr_app_classpath}}
+{% if security_enabled %}
+    security:
+      userPrincipal: {{user_principal_name}}
+      userKeytab: {{user_keytab}}
+      authMethod: kerberos
+      namenodePrincipal: {{nn_principal_name}}
+      rmManagerPrincipal: {{rm_principal_name}}
+      jobHistoryPrincipal: {{jhs_principal_name}}
+{% endif %}
 
 ---
 zk:

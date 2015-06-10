@@ -1,3 +1,10 @@
 # Use servers.yml to change URI for namenode
 # You can add additional properties in this file
-
+{% if security_enabled %}
+spring.hadoop.security.authMethod=kerberos
+spring.hadoop.security.userPrincipal={{user_principal_name}}
+spring.hadoop.security.userKeytab={{user_keytab}}
+spring.hadoop.security.namenodePrincipal={{nn_principal_name}}
+spring.hadoop.security.rmManagerPrincipal={{rm_principal_name}}
+spring.hadoop.security.jobHistoryPrincipal={{jhs_principal_name}}
+{% endif %}

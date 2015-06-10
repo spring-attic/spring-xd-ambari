@@ -55,6 +55,10 @@ def springxd(name = None):
   )
 
   configurations = params.config['configurations']['springxd-site']
+  sec_filtered_map = {}
+  for key,value in configurations.iteritems():
+    if "security" in value:
+      sec_filtered_map[key] = value
 
   File(format("{conf_dir}/servers.yml"),
        content=Template("servers.yml.j2",
@@ -83,7 +87,8 @@ def springxd(name = None):
   )
 
   File(format("{conf_dir}/hadoop.properties"),
-       content=Template("hadoop.properties.j2"),
+       content=Template("hadoop.properties.j2",
+                        sec_filtered_map = sec_filtered_map),
        owner=params.springxd_user,
        group=params.user_group
   )

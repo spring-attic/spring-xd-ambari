@@ -132,8 +132,17 @@ hadoop_conf_dir = "/etc/hadoop/conf"
 hdfs_user = config['configurations']['hadoop-env']['hdfs_user']
 security_enabled = config['configurations']['cluster-env']['security_enabled']
 hdfs_user_keytab = config['configurations']['hadoop-env']['hdfs_user_keytab']
+hdfs_principal_name = config['configurations']['hadoop-env']['hdfs_principal_name']
 kinit_path_local = functions.get_kinit_path(["/usr/bin", "/usr/kerberos/bin", "/usr/sbin"])
 hadoop_bin_dir = "/usr/hdp/current/hadoop-client/bin"
+
+# for other sec
+if security_enabled:
+  nn_principal_name = config['configurations']['hdfs-site']['dfs.namenode.kerberos.principal']
+  rm_principal_name = config['configurations']['yarn-site']['yarn.resourcemanager.principal']
+  jhs_principal_name = config['configurations']['mapred-site']['mapreduce.jobhistory.principal']
+  user_principal_name = config['configurations']['springxd-site']['spring.hadoop.security.userPrincipal']
+  user_keytab = config['configurations']['springxd-site']['spring.hadoop.security.userKeytab']
 
 import functools
 HdfsDirectory = functools.partial(

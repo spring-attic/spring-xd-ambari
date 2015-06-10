@@ -29,21 +29,19 @@ ospackage {
 	postInstall file('src/main/package/rpm/postinstall.sh')
 	preUninstall file('src/main/package/rpm/preremove.sh')
 
-	into '/var/lib/ambari-server/resources/stacks'
-
 }
 
 task phd30Rpm(type: Rpm) {
 	packageName = 'springxd-plugin-phd'
 	from('src/main/resources/services') {
-		into 'PHD/3.0/services'
+		into '/var/lib/ambari-server/resources/stacks/PHD/3.0/services'
 	}
 }
 
 task hdp22Rpm(type: Rpm) {
 	packageName = 'springxd-plugin-hdp'
 	from('src/main/resources/services') {
-		into 'HDP/2.2/services'
+		into '/var/lib/ambari-server/resources/stacks/HDP/2.2/services'
 	}
 }
 
