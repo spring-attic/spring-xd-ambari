@@ -6,8 +6,8 @@ import xml.etree.ElementTree as ET
 from pprint import pprint
 
 def updateRepoWithSpringXd(repoinfoxml):
-  springxd_repo='SPRINGXD-1.2-1'
-  springxd_repo_str = '<repo><baseurl>http://' + socket.getfqdn() + '/' + springxd_repo + '</baseurl><repoid>' + springxd_repo + '</repoid><reponame>' + springxd_repo + '</reponame></repo>'
+  springxd_repo='Spring-XD-1.2'
+  springxd_repo_str = '<repo><baseurl>http://repo.spring.io/yum-release/spring-xd/1.2</baseurl><repoid>' + springxd_repo + '</repoid><reponame>' + springxd_repo + '</reponame></repo>'
   is_springxdrepo_set = None
 
   tree = ET.parse(repoinfoxml)

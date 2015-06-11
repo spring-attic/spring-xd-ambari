@@ -20,8 +20,8 @@ ospackage {
 	arch = NOARCH
 	os = LINUX
 	packageDescription = 'Spring XD plugin contains Ambari\'s stack definition for Spring XD service.'
-	packageGroup = 'io.pivotal'
-	license = '2012-2015, Pivotal Software, Inc.'
+	packageGroup = 'Applications/Databases'
+	license = 'Apache License v2.0'
 
 	requires('ambari-server', '1.7', GREATER | EQUAL)
 	requires('python', '2.6', GREATER | EQUAL)
@@ -32,14 +32,14 @@ ospackage {
 }
 
 task phd30Rpm(type: Rpm) {
-	packageName = 'springxd-plugin-phd'
+	packageName = 'spring-xd-plugin-phd'
 	from('src/main/resources/services') {
 		into '/var/lib/ambari-server/resources/stacks/PHD/3.0/services'
 	}
 }
 
 task hdp22Rpm(type: Rpm) {
-	packageName = 'springxd-plugin-hdp'
+	packageName = 'spring-xd-plugin-hdp'
 	from('src/main/resources/services') {
 		into '/var/lib/ambari-server/resources/stacks/HDP/2.2/services'
 	}

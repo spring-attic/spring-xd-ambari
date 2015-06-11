@@ -15,7 +15,7 @@ def updateRepoWithSpringXd(repoinfoxml):
     if os_tag.attrib['type'] == 'redhat6':
       for repo in os_tag.findall('.//repo'):
         for reponame in repo.findall('.//reponame'):
-          if 'SPRINGXD-1.2-1' in reponame.text:
+          if 'Spring-XD-1.2' in reponame.text:
             is_springxdrepo_set = True
             os_tag.remove(repo)
   if is_springxdrepo_set == True:
