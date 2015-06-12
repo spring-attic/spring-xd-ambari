@@ -76,10 +76,18 @@ The install should succeed with 1 warning - "MapReduce2 Service Check" (File doe
 
 To overcome this, do the following:
 
+.for HDP version 2.2.4.2
 [source]
 ----
 # HADOOP_USER_NAME=hdfs hdfs dfs -mkdir -p /hdp/apps/2.2.4.2-2/mapreduce/
 # HADOOP_USER_NAME=hdfs hdfs dfs -copyFromLocal /usr/hdp/2.2.4.2-2/hadoop/mapreduce.tar.gz /hdp/apps/2.2.4.2-2/mapreduce/
+----
+
+.for HDP version 2.2.6.0
+[source]
+----
+# HADOOP_USER_NAME=hdfs hdfs dfs -mkdir -p /hdp/apps/2.2.6.0-2800/mapreduce/
+# HADOOP_USER_NAME=hdfs hdfs dfs -copyFromLocal /usr/hdp/2.2.6.0-2800/hadoop/mapreduce.tar.gz /hdp/apps/2.2.6.0-2800/mapreduce/
 ----
 
 The Hadoop cluster should now be operational.
