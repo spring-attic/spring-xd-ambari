@@ -19,6 +19,8 @@ ospackage {
 	release = 1
 	arch = NOARCH
 	os = LINUX
+	user 'root'
+	permissionGroup = 'root'
 	packageDescription = 'Spring XD plugin contains Ambari\'s stack definition for Spring XD service.'
 	packageGroup = 'Applications/Databases'
 	license = 'Apache License v2.0'

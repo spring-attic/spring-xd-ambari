@@ -43,7 +43,7 @@ def escape_yaml_property(value):
     pass
   
   if not unquouted:
-    value = value.replace("'","''")
+    value = value.strip().replace("'","''")
     value = "'"+value+"'"
     
   return value
