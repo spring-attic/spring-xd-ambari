@@ -14,9 +14,9 @@ def updateRepoWithSpringXd(repoinfoxml):
   root = tree.getroot()
 
   for os_tag in root.findall('.//os'):
-    if os_tag.attrib['type'] == 'redhat6' or os_tag.attrib['type'] == 'suse11':
+    if ('type' in os_tag.attrib and os_tag.attrib['type'] == 'redhat6') or ('family' in os_tag.attrib and os_tag.attrib['family'] == 'redhat6'):
       for reponame in os_tag.findall('.//reponame'):
-        if 'SPRINGXD' in reponame.text:
+        if 'Spring-XD-1.2' in reponame.text:
           is_springxdrepo_set = True
       if is_springxdrepo_set is None:
         springxd_element = ET.fromstring(springxd_repo_str)

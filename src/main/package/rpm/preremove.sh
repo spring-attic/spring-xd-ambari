@@ -12,7 +12,7 @@ def updateRepoWithSpringXd(repoinfoxml):
   root = tree.getroot()
 
   for os_tag in root.findall('.//os'):
-    if os_tag.attrib['type'] == 'redhat6':
+    if ('type' in os_tag.attrib and os_tag.attrib['type'] == 'redhat6') or ('family' in os_tag.attrib and os_tag.attrib['family'] == 'redhat6'):
       for repo in os_tag.findall('.//repo'):
         for reponame in repo.findall('.//reponame'):
           if 'Spring-XD-1.2' in reponame.text:
