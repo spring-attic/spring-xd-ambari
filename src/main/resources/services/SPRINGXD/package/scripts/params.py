@@ -117,6 +117,8 @@ if len(xd_messagebus_kafka_brokers)>0:
 elif len(xd_transport)<1 and kafka_installed:
   xd_transport = "kafka"
   xd_messagebus_kafka_brokers = format("{kafka_server}:{kafka_port}")
+elif xd_transport == "kafka" and len(xd_messagebus_kafka_brokers)<1 and kafka_installed:
+  xd_messagebus_kafka_brokers = format("{kafka_server}:{kafka_port}")
 elif len(spring_rabbitmq_addresses)>1:
   rabbitmq_installed = True
 else:
