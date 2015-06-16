@@ -33,6 +33,7 @@
 
 # The java implementation to use.
 export JAVA_HOME={{java64_home}}
+export JAVA_OPTS='-XX:PermSize=256m'
 export XD_CONFIG_LOCATION=file:/etc/springxd/conf
 export XD_MODULE_CONFIG_LOCATION=file:/opt/pivotal/spring-xd/xd/config/modules/
 export PATH={{java64_home}}/bin:$PATH
