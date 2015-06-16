@@ -17,7 +17,7 @@ I installed the PHD-3.0.0.0 and PHD-UTILS-1.1.0 stacks.
 
 My Repository settings are (`hawaii` is the hostname for my YUM repo machine):
 
-[width="80%",cols=">s,1m,2m",frame="topbot"]
+[width="80%",cols="1m,3m,6m",frame="topbot"]
 |=====================================
 |redhat6 |PHD-3.0             |http://hawaii/PHD-3.0.0.0
 |        |PHD-UTILS-1.1.0.20  |http://hawaii/PHD-UTILS-1.1.0.20

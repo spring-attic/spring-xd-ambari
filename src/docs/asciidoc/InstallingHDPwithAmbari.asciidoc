@@ -7,7 +7,7 @@ First we need a VM to work with. Follow the instructions in link:PreparingVMforA
 
 == Installing Ambari Server
 
-=== Setup Ambari YUM repo
+=== Set up Ambari YUM repo
 
 Get the `ambari.repo` definition. 
 
@@ -16,6 +16,13 @@ For Ambari 1.7.0 use:
 [source]
 ----
 wget -nv http://public-repo-1.hortonworks.com/ambari/centos6/1.x/updates/1.7.0/ambari.repo -O /etc/yum.repos.d/ambari.repo
+----
+
+For Ambari 2.0.x use:
+
+[source]
+----
+wget -nv http://public-repo-1.hortonworks.com/ambari/centos6/2.x/updates/2.0.1/ambari.repo -O /etc/yum.repos.d/ambari.repo
 ----
 
 Check that we have the Ambari repo listed as part of YUM repos:
@@ -68,22 +75,36 @@ For the SSH Private key I used the one we generated on the VM. Just run this and
 
 I ignored the warning about my hostname not beeing a FQDN.
 
-For services to install I picked "HDFS", "YARN + MapReduce2", "Nagios", "Ganglia", "Kafka" and "ZooKeeper". Everything ends up on the single node.
+For services to install with Ambari 1.7.0 I picked "HDFS", "YARN + MapReduce2", "Nagios", "Ganglia", "Kafka" and "ZooKeeper". For Ambari 2.0.x I picked "HDFS", "YARN + MapReduce2", "Ambari Metrics", "Kafka" and "ZooKeeper".  Everything ends up on the single node. 
 
-You need to set password and alert email for Nagios.
+When using Ambari 1.7.0 you will need to set password and alert email for Nagios. With Ambari 2.0.x I had to ignore the message saying I did not have enough RAM for the selected cpmponents.
 
-The install should succeed with 1 warning - "MapReduce2 Service Check" (File does not exist: hdfs://oahu:8020/hdp/apps/2.2.4.2-2/mapreduce/mapreduce.tar.gz)
+The install should succeed and you should have an operational cluster.
+
+==== Fix MapReduce warning when using Ambari 1.7.0
+
+For Ambari 1.7.0 install there was 1 warning - "MapReduce2 Service Check" (File does not exist: hdfs://host:8020/hdp/apps/2.2.6.0-2800/mapreduce/mapreduce.tar.gz)
 
 To overcome this, do the following:
 
-.for HDP version 2.2.4.2
+Determine the exact version of HDP:
+
+[source]
+----
+# readlink -f /usr/hdp/current/hadoop-client
+/usr/hdp/2.2.6.0-2800/hadoop
+----
+
+Use the full version number that is displayed in that path.
+
+.for HDP version 2.2.4.2-2
 [source]
 ----
 # HADOOP_USER_NAME=hdfs hdfs dfs -mkdir -p /hdp/apps/2.2.4.2-2/mapreduce/
 # HADOOP_USER_NAME=hdfs hdfs dfs -copyFromLocal /usr/hdp/2.2.4.2-2/hadoop/mapreduce.tar.gz /hdp/apps/2.2.4.2-2/mapreduce/
 ----
 
-.for HDP version 2.2.6.0
+.for HDP version 2.2.6.0-2800
 [source]
 ----
 # HADOOP_USER_NAME=hdfs hdfs dfs -mkdir -p /hdp/apps/2.2.6.0-2800/mapreduce/

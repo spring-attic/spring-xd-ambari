@@ -1,13 +1,13 @@
 Installing Spring XD using Ambari
 =================================
 
-These instructions apply to an installation using link:http://pivotalhd.docs.pivotal.io/docs/install-ambari.html[Pivotal Ambari] as well as link:http://docs.hortonworks.com/HDPDocuments/Ambari-1.7.0.0/Ambari_Doc_Suite/ADS_v170.html[Hortonworks Ambari] using Red Hat Enterprise Linux 6.5 or CentOS 6.5. 
+These instructions apply to an installation using link:http://pivotalhd.docs.pivotal.io/docs/install-ambari.html[Pivotal Ambari] as well as link:http://docs.hortonworks.com/HDPDocuments/Ambari-2.0.1.0/index.html[Hortonworks Ambari] using Red Hat Enterprise Linux 6.5 or CentOS 6.5. 
+
+NOTE: At the moment we support Apache Ambari versions 1.7.0, 1.7.1 and 2.0.1.
 
 For instructions to set up a single-node VM using Pivotal Ambari and Pivotal HD 3.0 see link:InstallingPHDwithAmbari.asciidoc[Installing Pivotal HD 3.0 on single-node VM using Ambari]
 
 For instructions to set up a single-node VM using Hortonworks Ambari and HDP 2.2 see link:InstallingHDPwithAmbari.asciidoc[Installing Hortonworks HDP 2.2 on single-node VM using Ambari]
-
-IMPORTANT: We currently have a Release Candidate build available. Please try it and report any issues using the link:https://github.com/spring-projects/spring-xd-ambari/issues[GitHub issue tracking for the project].
 
 === Preparing HDFS directories
 
@@ -17,7 +17,7 @@ Check the permissions of a directory using:
 
 [source]
 ----
-hdfs dfs -ls <directory>
+hdfs dfs -ls -d <directory>
 ----
 
 ==== HDFS `/user` directory
@@ -71,35 +71,16 @@ HADOOP_USER_NAME=<owner-of-directory> hdfs dfs -chmod 777 /tmp/hadoop-yarn/stagi
 HADOOP_USER_NAME=<owner-of-directory> hdfs dfs -chmod 777 /tmp/hadoop-yarn/staging/history
 ----
 
-=== Copying and installing Spring XD files
+=== Configuring the Spring XD YUM repository
 
-Download the Spring XD Ambari plugin from the Spring Repository (link:http://repo.spring.io/libs-milestone-local/org/springframework/xd/spring-xd/1.2.0.RC1/SPRINGXD-1.2-1.tar[http://repo.spring.io/libs-milestone-local/org/springframework/xd/spring-xd/1.2.0.RC1/SPRINGXD-1.2-1.tar]) and copy it to the YUM repository machine for your Ambari installation. We're copying the file to a the `/staging` directory.
-
-If you don't already have a `/staging` directory you can create it using:
+We need to copy the Spring XD repository definition into the local YUM repository on the machine used for the Ambari server.
 
 [source]
 ----
-# mkdir /staging
-# chmod a+rx /staging
+# wget -nv http://repo.spring.io/yum-release/spring-xd/1.2/spring-xd-1.2.repo -O /etc/yum.repos.d/spring-xd-1.2.repo
 ----
 
-NOTE: You should have the web server running on this machine. See link:PreparingVMforAmbari.asciidoc#install-httpd[Install httpd].
-
-Then unpack the `SPRINGXD-1.2-1.tar` file to the `/staging` directory:
-
-[source]
-----
-# tar -xvf /staging/SPRINGXD-1.2-1.tar -C /staging/
-----
-
-Next we need to install this as a YUM repo using the `setup_repo.sh` script:
-
-[source]
-----
-# /staging/SPRINGXD-1.2-1/setup_repo.sh
-----
-
-Check that the SPRINGXD YUM repo is available using:
+Check that the Spring XD YUM repo is available using:
 
 [source]
 ----
@@ -112,14 +93,14 @@ For Pivotal HD use:
 
 [source]
 ----
-# yum install springxd-plugin-phd
+# yum install spring-xd-plugin-phd
 ----
 
 For Hortonworks HDP use:
 
 [source]
 ----
-# yum install springxd-plugin-hdp
+# yum install spring-xd-plugin-hdp
 ----
 
 We now need to restart the Ambari server to pick up this new plugin:
@@ -138,8 +119,8 @@ We need to add a Fedora YUM repo for Redis and then install it:
 [source]
 ----
 # wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
-# sudo rpm -Uvh epel-release-6*.rpm
-# sudo yum -y install redis
+# rpm -Uvh epel-release-6*.rpm
+# yum -y install redis
 # chkconfig redis on
 ----
 
@@ -208,9 +189,9 @@ Then configure the RabbitMQ server to start on boot and start the service:
 
 Open the Ambari UI and log in as `admin`. Select `Admin` -> `Repositories` from the menu. Scroll down until you see the repository settings for Spring XD. They should read:
 
-[width="80%",cols=">s,1m,2m",frame="topbot"]
+[width="80%",cols="1m,2m,6m",frame="topbot"]
 |=====================================
-|redhat6 |SPRINGXD-1.2        |http://<yum-server>/SPRINGXD-1.2-1
+|redhat6 |SPRINGXD-1.2        |http://repo.spring.io/yum-release/spring-xd/1.2/
 |=====================================
 
 === Install Spring XD and create Spring XD service using Ambari UI
@@ -221,8 +202,6 @@ Open the Ambari UI and log in as `admin`. From the Dashboard click on "Actions +
 
 Under "Customize Services" we will need to make a few changes in the "Advanced springxd-site" section depending on which transport and distribution we are using.
 
-NOTE: All empty fields on this screen actually contain a blank space character. When you enter a value in an empty field, be sure to erase this blank space character before entering the value.
-
 .When using Kafka as transport:
 ************************************************
 [width="95%",cols="1m,3m",frame="topbot"]
@@ -232,7 +211,8 @@ NOTE: All empty fields on this screen actually contain a blank space character. 
 |spring.rabbitmq.addresses   |
 |spring.redis.host           | <hostname where redis is running>
 |spring.redis.port           | 6379
-|xd.messagebus.kafka.brokers | <hostname where kafka is running>:<port for kafka:9092>
+|xd.messagebus.kafka.brokers | for PHD: <hostname where kafka is running>:<port for kafka:9092>
+|                            | for HDP: leave blank since Ambari manages Kafka
 |xd.transport                | kafka
 |=====================================
 ************************************************
