@@ -72,6 +72,7 @@ server:
   port: {{admin_port}}
 
 ---
+{% if hsql_installed %}
 spring:
   datasource:
     url: jdbc:hsqldb:hsql://{{hsql_server}}:{{hsql_port}}/xdjob
@@ -79,11 +80,13 @@ spring:
     password:
     driverClassName: org.hsqldb.jdbc.JDBCDriver
     validationQuery: select 1 from INFORMATION_SCHEMA.SYSTEM_USERS
+{% endif %}
 
 ---
 spring:
   hadoop:
     fsUri: {{fs_defaultfs}}
+{% if yarn_installed %}
     resourceManagerAddress: {{yarn_rm_address}}
     resourceManagerHost: {{yarn_rm_address_host}}
     resourceManagerPort: {{yarn_rm_address_port}}
@@ -94,6 +97,7 @@ spring:
       yarn.resourcemanager.scheduler.address: {{yarn_rm_scheduler_address}}
       mapreduce.application.framework.path: /{{stack_name}}/apps/{{stack_version}}/mapreduce/mapreduce.tar.gz#mr-framework
       mapreduce.application.classpath: {{mr_app_classpath}}
+{% endif %}
 {% if security_enabled %}
     security:
       userPrincipal: {{user_principal_name}}

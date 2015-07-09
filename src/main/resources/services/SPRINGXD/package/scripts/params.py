@@ -64,19 +64,24 @@ springxd_hdfs_user_dir = format("/user/{springxd_user}")
 kafka_port = config['configurations']['kafka-broker']['port']
 zk_port = config['configurations']['zoo.cfg']['clientPort']
 fs_defaultfs = config['configurations']['core-site']['fs.defaultFS']
-yarn_rm_address = config['configurations']['yarn-site']['yarn.resourcemanager.address']
-yarn_rm_address_host = yarn_rm_address.split(':')[0]
-yarn_rm_address_port = yarn_rm_address.split(':')[1]
-yarn_rm_scheduler_address = config['configurations']['yarn-site']['yarn.resourcemanager.scheduler.address']
-job_history_address = config['configurations']['mapred-site']['mapreduce.jobhistory.address']
-yarn_app_classpath = config['configurations']['yarn-site']['yarn.application.classpath']
-yarn_app_classpath = yarn_app_classpath.replace('${hdp.version}', stack_version)
-yarn_app_classpath = yarn_app_classpath.replace('${stack.version}', stack_version)
-yarn_app_classpath = yarn_app_classpath.replace('${stack.name}', stack_name)
-mr_app_classpath = config['configurations']['mapred-site']['mapreduce.application.classpath']
-mr_app_classpath = mr_app_classpath.replace('${hdp.version}', stack_version)
-mr_app_classpath = mr_app_classpath.replace('${stack.version}', stack_version)
-mr_app_classpath = mr_app_classpath.replace('${stack.name}', stack_name)
+
+if (('yarn-site' in config['configurations']) and ('mapred-site' in config['configurations'])):
+  yarn_installed = True
+  yarn_rm_address = config['configurations']['yarn-site']['yarn.resourcemanager.address']
+  yarn_rm_address_host = yarn_rm_address.split(':')[0]
+  yarn_rm_address_port = yarn_rm_address.split(':')[1]
+  yarn_rm_scheduler_address = config['configurations']['yarn-site']['yarn.resourcemanager.scheduler.address']
+  job_history_address = config['configurations']['mapred-site']['mapreduce.jobhistory.address']
+  yarn_app_classpath = config['configurations']['yarn-site']['yarn.application.classpath']
+  yarn_app_classpath = yarn_app_classpath.replace('${hdp.version}', stack_version)
+  yarn_app_classpath = yarn_app_classpath.replace('${stack.version}', stack_version)
+  yarn_app_classpath = yarn_app_classpath.replace('${stack.name}', stack_name)
+  mr_app_classpath = config['configurations']['mapred-site']['mapreduce.application.classpath']
+  mr_app_classpath = mr_app_classpath.replace('${hdp.version}', stack_version)
+  mr_app_classpath = mr_app_classpath.replace('${stack.version}', stack_version)
+  mr_app_classpath = mr_app_classpath.replace('${stack.name}', stack_name)
+else:
+  yarn_installed = False
 
 # collect what is actually installed
 if 'kafka_broker_hosts' in config['clusterHostInfo'] and \

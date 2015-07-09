@@ -14,7 +14,7 @@
           <name>SPRINGXDADMIN</name>
           <displayName>Spring XD Admin</displayName>
           <category>MASTER</category>
-          <cardinality>1</cardinality>
+          <cardinality>1+</cardinality>
           <commandScript>
             <script>scripts/springxd_admin.py</script>
             <scriptType>PYTHON</scriptType>
@@ -26,14 +26,6 @@
               <scope>host</scope>
               <auto-deploy>
                 <enabled>true</enabled>
-              </auto-deploy>
-            </dependency>
-            <dependency>
-              <name>SPRINGXD/SPRINGXDHSQL</name>
-              <scope>host</scope>
-              <auto-deploy>
-                <enabled>true</enabled>
-                <co-locate>SPRINGXD/SPRINGXDHSQL</co-locate>
               </auto-deploy>
             </dependency>
           </dependencies>
@@ -67,7 +59,7 @@
           <name>SPRINGXDHSQL</name>
           <displayName>Spring XD HSQL Database</displayName>
           <category>MASTER</category>
-          <cardinality>0-1</cardinality>
+          <cardinality>0+</cardinality>
           <commandScript>
             <script>scripts/springxd_hsql.py</script>
             <scriptType>PYTHON</scriptType>
