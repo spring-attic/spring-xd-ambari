@@ -16,7 +16,7 @@ buildRpm.enabled = false
 
 ospackage {
 	version = '1.2'
-	release = 1
+	release = 2
 	arch = NOARCH
 	os = LINUX
 	user 'root'
