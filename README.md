@@ -1,16 +1,12 @@
 # Apache Ambari integration for Spring XD
 
-To compile with different stacks:
-
 ```text
-$ mvn clean package -P phd
-$ mvn clean package -P hdp
+$ ./gradlew clean dist
 ```
 
-Depending on which profile was used to build the rpm package, under
-`target/rpm/springxd-plugin-hdp/RPMS/noarch/` you'll find either
-`springxd-plugin-phd-1.2-1.noarch.rpm` or `springxd-plugin-hdp-1.2-1.noarch.rpm`
-which can be used with `PHD` or `HDP` respectively.
+Task `dist` will create rpm files for both `PHD` and `HDP`
+under `build/distributions`. Use files `springxd-plugin-phd-1.2-1.noarch.rpm`
+or `springxd-plugin-hdp-1.2-1.noarch.rpm` respectively.
 
 More detailed instructions using Ambari with PHD and HDP:
 
