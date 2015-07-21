@@ -54,6 +54,12 @@ def springxd(name = None):
             recursive=True
   )
 
+  dfs_ha_map = {}
+  if params.dfs_ha_enabled:
+    for nn_id in params.dfs_ha_namemodes_ids_list:
+      nn_host = params.config['configurations']['hdfs-site'][format('dfs.namenode.rpc-address.{dfs_ha_nameservices}.{nn_id}')]
+      dfs_ha_map[nn_id] = nn_host
+
   configurations = params.config['configurations']['springxd-site']
   sec_filtered_map = {}
   for key,value in configurations.iteritems():
@@ -69,7 +75,8 @@ def springxd(name = None):
   )
 
   File(format("{conf_dir}/xd-shell.init"),
-       content=Template("xd-shell.init.j2"),
+       content=Template("xd-shell.init.j2",
+                        dfs_ha_map = dfs_ha_map),
        owner=params.springxd_user,
        group=params.user_group
   )
@@ -88,6 +95,7 @@ def springxd(name = None):
 
   File(format("{conf_dir}/hadoop.properties"),
        content=Template("hadoop.properties.j2",
+                        dfs_ha_map = dfs_ha_map,
                         sec_filtered_map = sec_filtered_map),
        owner=params.springxd_user,
        group=params.user_group
