@@ -152,13 +152,38 @@ if security_enabled:
   user_keytab = config['configurations']['springxd-site']['spring.hadoop.security.userKeytab']
 
 import functools
-HdfsDirectory = functools.partial(
-  HdfsDirectory,
-  conf_dir=hadoop_conf_dir,
-  hdfs_user=hdfs_user,
-  security_enabled = security_enabled,
-  keytab = hdfs_user_keytab,
-  kinit_path_local = kinit_path_local,
-  bin_dir = hadoop_bin_dir
-)
 
+HdfsDirectory = None
+
+hdfs_site = config['configurations']['hdfs-site']
+default_fs = config['configurations']['core-site']['fs.defaultFS']
+
+action_create_delayed = "create_delayed"
+action_create = "create"
+
+if stack_name == 'hdp' and stack_version.startswith('2.3'):
+    action_create_delayed = "create_on_execute"
+    action_create = "execute"
+    HdfsDirectory = functools.partial(
+        HdfsResource,
+        type="directory",
+        user=hdfs_user,
+        security_enabled = security_enabled,
+        keytab = hdfs_user_keytab,
+        kinit_path_local = kinit_path_local,
+        hadoop_bin_dir = hadoop_bin_dir,
+        hadoop_conf_dir = hadoop_conf_dir,
+        principal_name = hdfs_principal_name,
+        hdfs_site = hdfs_site,
+        default_fs = default_fs
+        )
+else: 
+    HdfsDirectory = functools.partial(
+        HdfsDirectory,
+        conf_dir=hadoop_conf_dir,
+        hdfs_user=hdfs_user,
+        security_enabled = security_enabled,
+        keytab = hdfs_user_keytab,
+        kinit_path_local = kinit_path_local,
+        bin_dir = hadoop_bin_dir
+        )
