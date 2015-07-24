@@ -40,6 +40,7 @@ jps_binary = format("{java64_home}/bin/jps")
 
 # xd configs
 xd_transport = config['configurations']['springxd-site']['xd.transport'].strip()
+xd_custommodule_home = config['configurations']['springxd-site']['xd.customModule.home'].strip()
 hsql_port = config['configurations']['springxd-site']['hsql.server.port']
 admin_port = config['configurations']['springxd-site']['server.port']
 spring_redis_port = config['configurations']['springxd-site']['spring.redis.port']

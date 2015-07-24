@@ -10,6 +10,12 @@
   </property>
 
   <property>
+    <name>xd.customModule.home</name>
+    <value>${spring.hadoop.fsUri}/xd/custom-modules</value>
+    <description>XD module home path in hdfs</description>
+  </property>
+
+  <property>
     <name>spring.redis.host</name>
     <value> </value>
     <description>Redis address hostname</description>

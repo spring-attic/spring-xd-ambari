@@ -32,6 +32,8 @@
 # limitations under the License.
 xd:
   transport: {{xd_transport}}
+  customModule:
+    home: {{xd_custommodule_home}}
   messagebus:
 {% if kafka_installed %}
     kafka:
