@@ -1,0 +1,49 @@
+Upgrading to Spring XD 1.2.1.RELEASE using Ambari
+=================================================
+
+These instructions apply to an installation using link:http://pivotalhd.docs.pivotal.io/docs/install-ambari.html[Pivotal Ambari] as well as link:http://docs.hortonworks.com/HDPDocuments/Ambari-2.0.1.0/index.html[Hortonworks Ambari] using Red Hat Enterprise Linux 6.5 or CentOS 6.5. 
+
+This document describes the upgrade process. For initial installation instructions please refer to link:InstallingXDwithAmbari.asciidoc[Installing Spring XD using Ambari].
+
+Since Ambari does not yet support upgrading packages installed using an add-on plug-in we will have to perform a manual upgrade on all nodes that have Spring XD installed.
+
+==== Stop the Spring XD Service
+
+Use the Ambari UI to stop a running Spring XD service.
+
+==== Upgrade all hosts that have a Spring XD component installed.
+
+Download the new Spring XD 1.2.1 RPM:
+
+[source,bash]
+----
+wget https://repo.spring.io/libs-release-local/org/springframework/xd/spring-xd/1.2.1.RELEASE/spring-xd-1.2.1.RELEASE-1.noarch.rpm
+----
+
+Then perform a regular RPM upgrade operation:
+
+[source,bash]
+----
+rpm -Uvh spring-xd-1.2.1.RELEASE-1.noarch.rpm
+----
+
+NOTE: This has to be done on each host that has a Spring XD component installed.
+
+==== Copy the HSQLDB database to the new installation
+
+NOTE: This only applies to the host that has the "Spring XD HSQL Database" component for the XD Job information installed
+
+NOTE: If you use an external database configured for the XD Job information, or you don't have any XD Jobs defined, then you don't need to do this.
+
+Log in as `root` on the host that has the "Spring XD HSQL Database" component installed.
+
+After the RPM upgrade, copy the database files using the following command:
+
+[source,bash]
+----
+cp -r /opt/pivotal/spring-xd-1.2.0.RELEASE/xd/data/jobs/* /opt/pivotal/spring-xd/xd/data/jobs/.
+----
+
+==== Start the Spring XD Service
+
+Use the Ambari UI to start the Spring XD service.
