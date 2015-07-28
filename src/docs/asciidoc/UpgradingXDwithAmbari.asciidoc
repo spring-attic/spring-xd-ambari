@@ -41,7 +41,7 @@ After the RPM upgrade, copy the database files using the following command:
 
 [source,bash]
 ----
-cp -r /opt/pivotal/spring-xd-1.2.0.RELEASE/xd/data/jobs/* /opt/pivotal/spring-xd/xd/data/jobs/.
+sudo -u spring-xd cp -r /opt/pivotal/spring-xd-1.2.0.RELEASE/xd/data/jobs/* /opt/pivotal/spring-xd/xd/data/jobs/.
 ----
 
 ==== Start the Spring XD Service
