@@ -13,18 +13,11 @@ Use the Ambari UI to stop a running Spring XD service.
 
 ==== Upgrade all hosts that have a Spring XD component installed.
 
-Download the new Spring XD 1.2.1 RPM:
+Perform a regular YUM update operation:
 
 [source,bash]
 ----
-wget https://repo.spring.io/libs-release-local/org/springframework/xd/spring-xd/1.2.1.RELEASE/spring-xd-1.2.1.RELEASE-1.noarch.rpm
-----
-
-Then perform a regular RPM upgrade operation:
-
-[source,bash]
-----
-rpm -Uvh spring-xd-1.2.1.RELEASE-1.noarch.rpm
+yum update spring-xd
 ----
 
 NOTE: This has to be done on each host that has a Spring XD component installed.
