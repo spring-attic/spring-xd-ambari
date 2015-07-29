@@ -30,7 +30,7 @@ NOTE: If you use an external database configured for the XD Job information, or 
 
 Log in as `root` on the host that has the "Spring XD HSQL Database" component installed.
 
-After the RPM upgrade, copy the database files using the following command:
+After the YUM update, copy the database files using the following command:
 
 [source,bash]
 ----
