@@ -247,6 +247,16 @@ Under "Customize Services" we will need to make a few changes in the "Advanced s
 |=====================================
 ************************************************
 
+We should also add an entry for the custom module location in the "Custom springxd-site" section. The custom module location defaults to a local file location that won't work well for a distributed installation. We recommend setting the following property:
+
+.Custom module location:
+************************************************
+[width="95%",cols="1m,3m",frame="topbot"]
+|=====================================
+|xd.customModule.home        | ${spring.hadoop.fsUri}/xd/custom-modules
+|=====================================
+************************************************
+
 Then click `Next ->`.
 
 Review the configuration and then click `Deploy ->`.
