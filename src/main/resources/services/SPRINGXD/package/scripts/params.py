@@ -30,6 +30,7 @@ stack_version = str(config['hostLevelParams']['stack_version'])
 stack_version = get_full_stack_version(stack_version)
 stack_name = str(config['hostLevelParams']['stack_name']).lower()
 conf_dir = "/etc/springxd/conf"
+conf_modules_dir = "/etc/springxd/conf/modules"
 
 # common configs
 log_dir = config['configurations']['springxd-admin-env']['springxd_log_dir']

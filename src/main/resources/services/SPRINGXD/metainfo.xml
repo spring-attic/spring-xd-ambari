@@ -76,6 +76,7 @@
 
       <configuration-dependencies>
         <config-type>springxd-site</config-type>
+        <config-type>springxd-modules-site</config-type>
         <config-type>springxd-admin-env</config-type>
         <config-type>springxd-container-env</config-type>
       </configuration-dependencies>

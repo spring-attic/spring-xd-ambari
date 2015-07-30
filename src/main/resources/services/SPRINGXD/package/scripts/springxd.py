@@ -48,7 +48,7 @@ def springxd(name = None):
             recursive=True
   )
 
-  Directory([params.pid_dir, params.conf_dir],
+  Directory([params.pid_dir, params.conf_dir, params.conf_modules_dir],
             owner=params.springxd_user,
             group=params.user_group,
             recursive=True
@@ -61,6 +61,7 @@ def springxd(name = None):
       dfs_ha_map[nn_id] = nn_host
 
   configurations = params.config['configurations']['springxd-site']
+  modules = params.config['configurations']['springxd-modules-site']
   sec_filtered_map = {}
   for key,value in configurations.iteritems():
     if "security" in value:
@@ -70,6 +71,14 @@ def springxd(name = None):
        content=Template("servers.yml.j2",
                         extra_imports=[escape_yaml_property],
                         configurations = configurations),
+       owner=params.springxd_user,
+       group=params.user_group
+  )
+
+  File(format("{conf_dir}/modules/modules.yml"),
+       content=Template("modules.yml.j2",
+                        extra_imports=[escape_yaml_property],
+                        configurations = modules),
        owner=params.springxd_user,
        group=params.user_group
   )

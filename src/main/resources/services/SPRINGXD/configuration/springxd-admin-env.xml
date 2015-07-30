@@ -50,7 +50,7 @@
 # The java implementation to use.
 export JAVA_HOME={{java64_home}}
 export XD_CONFIG_LOCATION=file:/etc/springxd/conf
-export XD_MODULE_CONFIG_LOCATION=file:/opt/pivotal/spring-xd/xd/config/modules/
+export XD_MODULE_CONFIG_LOCATION=file:/etc/springxd/conf/modules/
 export PATH={{java64_home}}/bin:$PATH
 {% if hadoop_distro != None %}
 export HADOOP_DISTRO={{hadoop_distro}}
