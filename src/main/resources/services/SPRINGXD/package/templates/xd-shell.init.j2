@@ -1,3 +1,12 @@
 admin config server {{xd_shell_admin_server_address}}
 hadoop config fs --namenode {{xd_shell_hdfs_address}}
+{% if dfs_ha_enabled %}
+hadoop config props set --property dfs.ha.automatic-failover.enabled={{dfs_ha_automatic_failover_enabled}}
+hadoop config props set --property dfs.nameservices={{dfs_ha_nameservices}}
+hadoop config props set --property dfs.client.failover.proxy.provider.mycluster=org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider
+hadoop config props set --property dfs.ha.namenodes.{{dfs_ha_nameservices}}={{dfs_ha_namenode_ids}}
+{% for key, value in dfs_ha_map.iteritems() %}
+hadoop config props set --property dfs.namenode.rpc-address.{{dfs_ha_nameservices}}.{{key}}={{value}}
+{% endfor %}
+{% endif %}
 
