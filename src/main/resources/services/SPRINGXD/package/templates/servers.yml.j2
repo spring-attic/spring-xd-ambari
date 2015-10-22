@@ -38,7 +38,7 @@ xd:
 {% if kafka_installed %}
     kafka:
       brokers: {{xd_messagebus_kafka_brokers}}
-      zkAddress: {{zk_server}}:{{zk_port}}
+      zkAddress: {{zk_connect}}
 {% endif %}
 
 {% if redis_installed %}
@@ -114,7 +114,7 @@ spring:
 zk:
   namespace: xd
   client:
-     connect: {{zk_server}}:{{zk_port}}
+     connect: {{zk_connect}}
      sessionTimeout: 60000
      connectionTimeout: 30000
      initialRetryWait: 1000

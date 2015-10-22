@@ -109,6 +109,12 @@ else:
 if 'zookeeper_hosts' in config['clusterHostInfo'] and \
     len(config['clusterHostInfo']['zookeeper_hosts'])>0:
   zk_installed = True
+  zookeeper_hosts = config['clusterHostInfo']['zookeeper_hosts']
+  zookeeper_hosts.sort()
+  zk_connects_strings = []
+  for zk_host in zookeeper_hosts:
+    zk_connects_strings.append(zk_host+":"+str(zk_port))
+  zk_connect = ','.join(zk_connects_strings)
   zk_server = config['clusterHostInfo']['zookeeper_hosts'][0]
 else:
   zk_installed = False
