@@ -34,6 +34,18 @@
   </property>
 
   <property>
+    <name>xd.messagebus.kafka.zkAddress</name>
+    <value> </value>
+    <description>Kafka zookeeper addresses</description>
+  </property>
+
+  <property>
+    <name>zk.client.connect</name>
+    <value> </value>
+    <description>XD zookeeper addresses</description>
+  </property>
+
+  <property>
     <name>spring.rabbitmq.addresses</name>
     <value> </value>
     <description>Rabbit MQ addresses</description>

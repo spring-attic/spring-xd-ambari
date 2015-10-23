@@ -47,6 +47,8 @@ admin_port = config['configurations']['springxd-site']['server.port']
 spring_redis_port = config['configurations']['springxd-site']['spring.redis.port']
 spring_redis_host = config['configurations']['springxd-site']['spring.redis.host'].strip()
 xd_messagebus_kafka_brokers = config['configurations']['springxd-site']['xd.messagebus.kafka.brokers'].strip()
+xd_messagebus_kafka_zkAddress = config['configurations']['springxd-site']['xd.messagebus.kafka.zkAddress'].strip()
+zk_client_connect = config['configurations']['springxd-site']['zk.client.connect'].strip()
 spring_rabbitmq_addresses = config['configurations']['springxd-site']['spring.rabbitmq.addresses'].strip()
 
 if stack_name == 'phd':
@@ -102,7 +104,12 @@ else:
 if 'kafka_broker_hosts' in config['clusterHostInfo'] and \
     len(config['clusterHostInfo']['kafka_broker_hosts'])>0:
   kafka_installed = True
-  kafka_server = config['clusterHostInfo']['kafka_broker_hosts'][0]
+  kafka_broker_hosts = config['clusterHostInfo']['kafka_broker_hosts']
+  kafka_broker_hosts.sort()
+  kafka_broker_hosts_strings = []
+  for kafka_broker_host in kafka_broker_hosts:
+    kafka_broker_hosts_strings.append(format("{kafka_broker_host}:{kafka_port}"))
+  kafka_broker_connect = ','.join(kafka_broker_hosts_strings)
 else:
   kafka_installed = False
 
@@ -115,7 +122,6 @@ if 'zookeeper_hosts' in config['clusterHostInfo'] and \
   for zk_host in zookeeper_hosts:
     zk_connects_strings.append(zk_host+":"+str(zk_port))
   zk_connect = ','.join(zk_connects_strings)
-  zk_server = config['clusterHostInfo']['zookeeper_hosts'][0]
 else:
   zk_installed = False
 
@@ -142,14 +148,25 @@ if len(xd_messagebus_kafka_brokers)>0:
   xd_transport = "kafka"
 elif len(xd_transport)<1 and kafka_installed:
   xd_transport = "kafka"
-  xd_messagebus_kafka_brokers = format("{kafka_server}:{kafka_port}")
+  xd_messagebus_kafka_brokers = kafka_broker_connect
 elif xd_transport == "kafka" and len(xd_messagebus_kafka_brokers)<1 and kafka_installed:
-  xd_messagebus_kafka_brokers = format("{kafka_server}:{kafka_port}")
+  xd_messagebus_kafka_brokers = kafka_broker_connect
 elif len(spring_rabbitmq_addresses)>1:
   rabbitmq_installed = True
 else:
   xd_transport = "redis"
   redis_installed = True
+
+if len(xd_messagebus_kafka_zkAddress)>0:
+  zk_kafka_connect = xd_messagebus_kafka_zkAddress
+
+# tweak zk settings for xd
+if len(zk_client_connect)<1 and zk_installed:
+  zk_client_connect = zk_connect
+
+# tweak zk settings for kafka bus
+if len(xd_messagebus_kafka_zkAddress)<1 and kafka_installed:
+  zk_kafka_connect = zk_connect
 
 # for xd shell
 xd_shell_hdfs_address = fs_defaultfs
