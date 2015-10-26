@@ -37,6 +37,11 @@
     <value>/var/run/springxd</value>
     <description></description>
   </property>
+  <property>
+    <name>springxd_data_dir</name>
+    <value>/var/run/springxd/data</value>
+    <description></description>
+  </property>
 
   <!-- springxd-admin-env.sh -->
   <property>

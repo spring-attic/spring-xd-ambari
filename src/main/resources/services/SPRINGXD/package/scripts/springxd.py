@@ -48,7 +48,7 @@ def springxd(name = None):
             recursive=True
   )
 
-  Directory([params.pid_dir, params.conf_dir, params.conf_modules_dir],
+  Directory([params.pid_dir, params.data_dir, params.conf_dir, params.conf_modules_dir],
             owner=params.springxd_user,
             group=params.user_group,
             recursive=True

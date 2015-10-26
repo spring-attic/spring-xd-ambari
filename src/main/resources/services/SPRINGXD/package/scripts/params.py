@@ -36,6 +36,7 @@ conf_modules_dir = "/etc/springxd/conf/modules"
 log_dir = config['configurations']['springxd-admin-env']['springxd_log_dir']
 user_group = config['configurations']['cluster-env']['user_group']
 pid_dir = status_params.pid_dir
+data_dir = status_params.data_dir
 java64_home = config['hostLevelParams']['java_home']
 jps_binary = format("{java64_home}/bin/jps")
 

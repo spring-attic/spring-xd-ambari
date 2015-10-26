@@ -25,3 +25,4 @@ pid_dir = config['configurations']['springxd-admin-env']['springxd_pid_dir']
 admin_pid_file = format("{pid_dir}/springxd_admin.pid")
 container_pid_file = format("{pid_dir}/springxd_container.pid")
 hsql_pid_file = format("{pid_dir}/springxd_hsql.pid")
+data_dir = config['configurations']['springxd-admin-env']['springxd_data_dir']

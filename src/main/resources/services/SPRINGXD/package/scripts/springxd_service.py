@@ -43,7 +43,7 @@ def springxd_service(action='none', name='none'):
     if name == 'admin':
       process_cmd = format("source {conf_dir}/springxd-admin-env.sh ; /opt/pivotal/spring-xd/xd/bin/xd-admin > {log_dir}/admin.out 2>&1")
     elif name == 'hsql':
-      process_cmd = format("source {conf_dir}/springxd-admin-env.sh ; /opt/pivotal/spring-xd/hsqldb/bin/hsqldb-server --hsql.server.port={hsql_port} > {log_dir}/hsql.out 2>&1")
+      process_cmd = format("source {conf_dir}/springxd-admin-env.sh ; /opt/pivotal/spring-xd/hsqldb/bin/hsqldb-server --xd.data.home={data_dir} --hsql.server.port={hsql_port} > {log_dir}/hsql.out 2>&1")
     else:
       process_cmd = format("source {conf_dir}/springxd-container-env.sh ; /opt/pivotal/spring-xd/xd/bin/xd-container > {log_dir}/container.out 2>&1")
 
