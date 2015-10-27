@@ -47,7 +47,14 @@ task hdp22Rpm(type: Rpm) {
 	}
 }
 
+task hdp23Rpm(type: Rpm) {
+        packageName = 'spring-xd-plugin-hdp23'
+        from('src/main/resources/services') {
+                into '/var/lib/ambari-server/resources/stacks/HDP/2.3/services'
+        }
+}
+
 task dist {
-	dependsOn phd30Rpm, hdp22Rpm
+	dependsOn phd30Rpm, hdp22Rpm, hdp23Rpm
 }
 
