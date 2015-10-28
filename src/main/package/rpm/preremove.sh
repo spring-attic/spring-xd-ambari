@@ -34,8 +34,23 @@ if os.path.exists('/var/lib/ambari-server/resources/stacks/PHD/3.0/role_command_
   json_data.truncate()
   json.dump(data, json_data, indent=2)
   json_data.close()
-elif os.path.exists('/var/lib/ambari-server/resources/stacks/HDP/2.2/role_command_order.json'):
+
+if os.path.exists('/var/lib/ambari-server/resources/stacks/HDP/2.2/role_command_order.json'):
   json_data=open('/var/lib/ambari-server/resources/stacks/HDP/2.2/role_command_order.json', 'r+')
+  data = json.load(json_data)
+  if data['general_deps'].has_key('SPRINGXD-INSTALL'):
+    data['general_deps'].pop('SPRINGXD-INSTALL')
+  if data['general_deps'].has_key('SPRINGXDADMIN-START'):
+    data['general_deps'].pop('SPRINGXDADMIN-START')
+  if data['general_deps'].has_key('SPRINGXDCONTAINER-START'):
+    data['general_deps'].pop('SPRINGXDCONTAINER-START')
+  json_data.seek(0)
+  json_data.truncate()
+  json.dump(data, json_data, indent=2)
+  json_data.close()
+
+if os.path.exists('/var/lib/ambari-server/resources/stacks/HDP/2.3/role_command_order.json'):
+  json_data=open('/var/lib/ambari-server/resources/stacks/HDP/2.3/role_command_order.json', 'r+')
   data = json.load(json_data)
   if data['general_deps'].has_key('SPRINGXD-INSTALL'):
     data['general_deps'].pop('SPRINGXD-INSTALL')
@@ -50,8 +65,12 @@ elif os.path.exists('/var/lib/ambari-server/resources/stacks/HDP/2.2/role_comman
 
 if os.path.exists('/var/lib/ambari-server/resources/stacks/PHD/3.0/repos/repoinfo.xml'):
   updateRepoWithSpringXd('/var/lib/ambari-server/resources/stacks/PHD/3.0/repos/repoinfo.xml')
-elif os.path.exists('/var/lib/ambari-server/resources/stacks/HDP/2.2/repos/repoinfo.xml'):
+
+if os.path.exists('/var/lib/ambari-server/resources/stacks/HDP/2.2/repos/repoinfo.xml'):
   updateRepoWithSpringXd('/var/lib/ambari-server/resources/stacks/HDP/2.2/repos/repoinfo.xml')
+
+if os.path.exists('/var/lib/ambari-server/resources/stacks/HDP/2.3/repos/repoinfo.xml'):
+  updateRepoWithSpringXd('/var/lib/ambari-server/resources/stacks/HDP/2.3/repos/repoinfo.xml')
 
 EOT
 

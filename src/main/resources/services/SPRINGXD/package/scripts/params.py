@@ -79,7 +79,8 @@ if dfs_ha_namenode_ids:
     dfs_ha_enabled = True
 
 # cluster configs
-kafka_port = config['configurations']['kafka-broker']['port']
+
+
 zk_port = config['configurations']['zoo.cfg']['clientPort']
 fs_defaultfs = config['configurations']['core-site']['fs.defaultFS']
 
@@ -108,6 +109,13 @@ if 'kafka_broker_hosts' in config['clusterHostInfo'] and \
   kafka_broker_hosts = config['clusterHostInfo']['kafka_broker_hosts']
   kafka_broker_hosts.sort()
   kafka_broker_hosts_strings = []
+
+  # kafka eiher in port or listener address
+  if ('port' in config['configurations']['kafka-broker']):
+    kafka_port = config['configurations']['kafka-broker']['port']
+  else:
+    kafka_port = config['configurations']['kafka-broker']['listeners'].split(':')[-1]
+
   for kafka_broker_host in kafka_broker_hosts:
     kafka_broker_hosts_strings.append(format("{kafka_broker_host}:{kafka_port}"))
   kafka_broker_connect = ','.join(kafka_broker_hosts_strings)
@@ -181,6 +189,10 @@ hdfs_user_keytab = config['configurations']['hadoop-env']['hdfs_user_keytab']
 hdfs_principal_name = config['configurations']['hadoop-env']['hdfs_principal_name']
 kinit_path_local = functions.get_kinit_path(["/usr/bin", "/usr/kerberos/bin", "/usr/sbin"])
 hadoop_bin_dir = "/usr/hdp/current/hadoop-client/bin"
+hdfs_site = config['configurations']['hdfs-site']
+default_fs = config['configurations']['core-site']['fs.defaultFS']
+action_create_delayed = "create_delayed"
+action_create = "create"
 
 # for other sec
 if security_enabled:
@@ -190,14 +202,33 @@ if security_enabled:
   user_principal_name = config['configurations']['springxd-site']['spring.hadoop.security.userPrincipal']
   user_keytab = config['configurations']['springxd-site']['spring.hadoop.security.userKeytab']
 
+
+
 import functools
-HdfsDirectory = functools.partial(
-  HdfsDirectory,
-  conf_dir=hadoop_conf_dir,
-  hdfs_user=hdfs_user,
-  security_enabled = security_enabled,
-  keytab = hdfs_user_keytab,
-  kinit_path_local = kinit_path_local,
-  bin_dir = hadoop_bin_dir
-)
+try:
+  HdfsDirectory = functools.partial(
+    HdfsDirectory,
+    conf_dir=hadoop_conf_dir,
+    hdfs_user=hdfs_user,
+    security_enabled = security_enabled,
+    keytab = hdfs_user_keytab,
+    kinit_path_local = kinit_path_local,
+    bin_dir = hadoop_bin_dir
+  )
+except NameError:
+  HdfsDirectory = functools.partial(
+    HdfsResource,
+    type="directory",
+    user=hdfs_user,
+    security_enabled = security_enabled,
+    keytab = hdfs_user_keytab,
+    kinit_path_local = kinit_path_local,
+    hadoop_bin_dir = hadoop_bin_dir,
+    hadoop_conf_dir = hadoop_conf_dir,
+    principal_name = hdfs_principal_name,
+    hdfs_site = hdfs_site,
+    default_fs = default_fs
+  )
+  action_create_delayed = "create_on_execute"
+  action_create = "execute"
 

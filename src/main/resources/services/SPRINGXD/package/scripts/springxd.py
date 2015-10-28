@@ -30,16 +30,16 @@ def springxd(name = None):
 
   if name == "admin":
     params.HdfsDirectory("/xd",
-                         action="create_delayed",
+                         action=params.action_create_delayed,
                          owner=params.springxd_user,
                          mode=0777
     )
     params.HdfsDirectory(params.springxd_hdfs_user_dir,
-                         action="create_delayed",
+                         action=params.action_create_delayed,
                          owner=params.springxd_user,
                          mode=0777
     )
-    params.HdfsDirectory(None, action="create")
+    params.HdfsDirectory(None, action=params.action_create)
 
   Directory(params.log_dir,
             owner=params.springxd_user,
