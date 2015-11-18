@@ -11,7 +11,7 @@ spring.hadoop.security.jobHistoryPrincipal={{jhs_principal_name}}
 {% if dfs_ha_enabled %}
 dfs.ha.automatic-failover.enabled={{dfs_ha_automatic_failover_enabled}}
 dfs.nameservices={{dfs_ha_nameservices}}
-dfs.client.failover.proxy.provider.mycluster=org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider
+dfs.client.failover.proxy.provider.{{dfs_ha_nameservices}}=org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider
 dfs.ha.namenodes.{{dfs_ha_nameservices}}={{dfs_ha_namenode_ids}}
 {% for key, value in dfs_ha_map.iteritems() %}
 dfs.namenode.rpc-address.{{dfs_ha_nameservices}}.{{key}}={{value}}
