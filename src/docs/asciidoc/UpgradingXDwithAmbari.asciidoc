@@ -44,7 +44,7 @@ Check your Spring XD Ambari plugin version:
 yum list spring-xd-plugin-*
 ----
 
-Look under `Installed Packages`, if the `spring-xd-plugin` is listed as version 1.2-2 then no further action is needed. The the datafiles are now stored in `/var/run/springxd/data/jobs`.
+Look under `Installed Packages`, if the `spring-xd-plugin` is listed as version 1.2-2 then no further action is needed. The datafiles are now stored in `/var/run/springxd/data/jobs`.
 
 If the version is 1.2-1 then the datafiles are stored in `/opt/pivotal/spring-xd/xd/data/jobs` and we need to copy the ones from the old version to the newly installed one.
 
