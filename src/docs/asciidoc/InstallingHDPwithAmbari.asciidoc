@@ -25,6 +25,13 @@ For Ambari 2.0.x use:
 wget -nv http://public-repo-1.hortonworks.com/ambari/centos6/2.x/updates/2.0.1/ambari.repo -O /etc/yum.repos.d/ambari.repo
 ----
 
+For Ambari 2.1.x use:
+
+[source]
+----
+wget -nv http://public-repo-1.hortonworks.com/ambari/centos6/2.x/updates/2.1.2.1/ambari.repo -O /etc/yum.repos.d/ambari.repo
+----
+
 Check that we have the Ambari repo listed as part of YUM repos:
 
 [source]
