@@ -50,14 +50,14 @@ If the version is 1.2-1 then the datafiles are stored in `/opt/pivotal/spring-xd
 
 NOTE: This must be done after the YUM update command mentioned above
 
-For and upgrade from Spring XD 1.2.1 execute this command to copy the files:
+For an upgrade from Spring XD 1.2.1 execute this command to copy the files:
 
 [source,bash]
 ----
 sudo -u spring-xd cp -r /opt/pivotal/spring-xd-1.2.1.RELEASE/xd/data/jobs/* /opt/pivotal/spring-xd/xd/data/jobs/.
 ----
 
-For and upgrade from Spring XD 1.2.0 execute this command to copy the files:
+For an upgrade from Spring XD 1.2.0 execute this command to copy the files:
 
 [source,bash]
 ----
