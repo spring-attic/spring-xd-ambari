@@ -1,4 +1,4 @@
-Upgrading to Spring XD 1.2.1.RELEASE using Ambari
+Upgrading to Spring XD 1.3.0.RELEASE using Ambari
 =================================================
 
 These instructions apply to an installation using link:http://pivotalhd.docs.pivotal.io/docs/install-ambari.html[Pivotal Ambari] as well as link:http://docs.hortonworks.com/HDPDocuments/Ambari-2.0.1.0/index.html[Hortonworks Ambari] using Red Hat Enterprise Linux 6.5 or CentOS 6.5. 
@@ -12,6 +12,14 @@ Since Ambari does not yet support upgrading packages installed using an add-on p
 Use the Ambari UI to stop a running Spring XD service.
 
 ==== Upgrade all hosts that have a Spring XD component installed.
+
+Log in as `root` on each node.
+
+Add the new Spring XD 1.3 YUM repo:
+[source,bash]
+----
+wget -nv http://repo.spring.io/yum-release/spring-xd/1.3/spring-xd-1.3.repo -O /etc/yum.repos.d/spring-xd-1.3.repo
+----
 
 Perform a regular YUM update operation:
 
@@ -30,7 +38,26 @@ NOTE: If you use an external database configured for the XD Job information, or 
 
 Log in as `root` on the host that has the "Spring XD HSQL Database" component installed.
 
-After the YUM update, copy the database files using the following command:
+Check your Spring XD Ambari plugin version:
+[source,bash]
+----
+yum list spring-xd-plugin-*
+----
+
+Look under `Installed Packages`, if the `spring-xd-plugin` is listed as version 1.2-2 then no further action is needed. The the datafiles are now stored in `/var/run/springxd/data/jobs`.
+
+If the version is 1.2-1 then the datafiles are stored in `/opt/pivotal/spring-xd/xd/data/jobs` and we need to copy the ones from the old version to the newly installed one.
+
+NOTE: This must be done after the YUM update command mentioned above
+
+For and upgrade from Spring XD 1.2.1 execute this command to copy the files:
+
+[source,bash]
+----
+sudo -u spring-xd cp -r /opt/pivotal/spring-xd-1.2.1.RELEASE/xd/data/jobs/* /opt/pivotal/spring-xd/xd/data/jobs/.
+----
+
+For and upgrade from Spring XD 1.2.0 execute this command to copy the files:
 
 [source,bash]
 ----
