@@ -83,6 +83,18 @@ def springxd(name = None):
        group=params.user_group
   )
 
+  modules_cfg_copy_command = format("cp -r /opt/pivotal/spring-xd/xd/config/modules/job {params.conf_modules_dir} && cp -r /opt/pivotal/spring-xd/xd/config/modules/sink {params.conf_modules_dir} && cp -r /opt/pivotal/spring-xd/xd/config/modules/source {params.conf_modules_dir}")
+
+  Execute(modules_cfg_copy_command,
+          )
+
+  Directory([format("{params.conf_modules_dir}/job"), format("{params.conf_modules_dir}/sink"), format("{params.conf_modules_dir}/source")],
+            owner=params.springxd_user,
+            group=params.user_group,
+            recursive=True
+  )
+
+
   File(format("{conf_dir}/xd-shell.init"),
        content=Template("xd-shell.init.j2",
                         dfs_ha_map = dfs_ha_map),
