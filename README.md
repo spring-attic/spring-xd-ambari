@@ -5,8 +5,8 @@ $ ./gradlew clean dist
 ```
 
 Task `dist` will create rpm files for both `PHD` and `HDP`
-under `build/distributions`. Use files `springxd-plugin-phd-1.2-1.noarch.rpm`
-or `springxd-plugin-hdp-1.2-1.noarch.rpm` respectively.
+under `build/distributions`. Use files `springxd-plugin-phd-1.3-2.noarch.rpm`
+or `springxd-plugin-hdp-1.3-2.noarch.rpm` respectively.
 
 More detailed instructions using Ambari with PHD and HDP:
 
