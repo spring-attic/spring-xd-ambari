@@ -63,4 +63,10 @@
     <description>HSQL server port</description>
   </property>
 
+  <property>
+    <name>xd.management.enabled</name>
+    <value>false</value>
+    <description>XD Enable JMX and the management metrics</description>
+  </property>
+
 </configuration>

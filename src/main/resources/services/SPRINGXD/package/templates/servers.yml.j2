@@ -84,6 +84,30 @@ spring:
     validationQuery: select 1 from INFORMATION_SCHEMA.SYSTEM_USERS
 {% endif %}
 
+{% if xd_management_enabled %}
+---
+# Config to enable/disable JMX/jolokia endpoints
+XD_JMX_ENABLED: true
+endpoints:
+  jolokia:
+    enabled: ${XD_JMX_ENABLED:false}
+  jmx:
+    enabled: ${XD_JMX_ENABLED:false}
+    uniqueNames: true
+
+---
+#Enable collecting message rates from containers that have management port enabled.
+xd:
+  messageRateMonitoring:
+    enabled: true
+
+---
+spring:
+  profiles: container
+management:
+  port: 0
+{% endif %}
+
 ---
 spring:
   hadoop:
