@@ -3,9 +3,9 @@ Installing Spring XD using Ambari
 
 These instructions apply to an installation using link:http://pivotalhd.docs.pivotal.io/docs/install-ambari.html[Pivotal Ambari] as well as link:http://docs.hortonworks.com/HDPDocuments/Ambari-2.0.1.0/index.html[Hortonworks Ambari] using Red Hat Enterprise Linux 6.5 or CentOS 6.5. 
 
-NOTE: These instructions are for *Spring XD version 1.3.0*. Instructions for Spring XD 1.2.x can be found link:https://github.com/spring-projects/spring-xd-ambari/blob/1a229c77af5df6c063546c9d6f6dc1f1e9285052/src/docs/asciidoc/InstallingXDwithAmbari.asciidoc[here].
+NOTE: These instructions are for *Spring XD version 1.3.1*. Instructions for Spring XD 1.2.x can be found link:https://github.com/spring-projects/spring-xd-ambari/blob/1a229c77af5df6c063546c9d6f6dc1f1e9285052/src/docs/asciidoc/InstallingXDwithAmbari.asciidoc[here].
 
-This document describes the initial installation process. For upgrade instructions please refer to link:UpgradingXDwithAmbari.asciidoc[Upgrading to Spring XD 1.3.0.RELEASE using Ambari].
+This document describes the initial installation process. For upgrade instructions please refer to link:UpgradingXDwithAmbari.asciidoc[Upgrading to Spring XD 1.3.1.RELEASE using Ambari].
 
 NOTE: At the moment we support Apache Ambari versions 1.7.0, 1.7.1, 2.0.1 and 2.1.2.
 
