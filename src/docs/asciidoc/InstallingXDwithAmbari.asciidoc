@@ -1,7 +1,7 @@
 Installing Spring XD using Ambari
 =================================
 
-These instructions apply to an installation using link:http://pivotalhd.docs.pivotal.io/docs/install-ambari.html[Pivotal Ambari] as well as link:http://docs.hortonworks.com/HDPDocuments/Ambari-2.0.1.0/index.html[Hortonworks Ambari] using Red Hat Enterprise Linux 6.5 or CentOS 6.5. 
+These instructions apply to an installation using link:https://pivotalhd.docs.pivotal.io/docs/install-ambari.html[Pivotal Ambari] as well as link:https://docs.hortonworks.com/HDPDocuments/Ambari-2.0.1.0/index.html[Hortonworks Ambari] using Red Hat Enterprise Linux 6.5 or CentOS 6.5. 
 
 NOTE: These instructions are for *Spring XD version 1.3.1*. Instructions for Spring XD 1.2.x can be found link:https://github.com/spring-projects/spring-xd-ambari/blob/1a229c77af5df6c063546c9d6f6dc1f1e9285052/src/docs/asciidoc/InstallingXDwithAmbari.asciidoc[here].
 
@@ -81,7 +81,7 @@ We need to copy the Spring XD repository definition into the local YUM repositor
 
 [source]
 ----
-# wget -nv http://repo.spring.io/yum-release/spring-xd/1.3/spring-xd-1.3.repo -O /etc/yum.repos.d/spring-xd-1.3.repo
+# wget -nv https://repo.spring.io/yum-release/spring-xd/1.3/spring-xd-1.3.repo -O /etc/yum.repos.d/spring-xd-1.3.repo
 ----
 
 Check that the Spring XD YUM repo is available using:
@@ -116,13 +116,13 @@ We now need to restart the Ambari server to pick up this new plugin:
 
 === Install Redis 
 
-You can build Redis from source or you can use RPMs that are available from the link:https://fedoraproject.org/wiki/EPEL[EPEL] project. Source is available from the link:http://redis.io/download[Redis download] page. Here we'll use the RPM packages. 
+You can build Redis from source or you can use RPMs that are available from the link:https://fedoraproject.org/wiki/EPEL[EPEL] project. Source is available from the link:https://redis.io/download[Redis download] page. Here we'll use the RPM packages. 
 
 We need to add a Fedora YUM repo for Redis and then install it:
 
 [source]
 ----
-# wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+# wget https://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
 # rpm -Uvh epel-release-6*.rpm
 # yum -y install redis
 # chkconfig redis on
@@ -159,7 +159,7 @@ We need to have a transport installed and we can use the Redis instance that we 
 
 ==== Using Kafka as Transport
 
-Hortonworks HDP supports Kafka installs using Ambari while Pivotal PHD does not. If you use Hortonworks HDP then you should create a Kafka service using Ambari. If you use Pivotal PHD then you need to install Kafka manually first and provide the connection parameters when you create the Spring XD service. Kafka can be downloaded from the link:http://kafka.apache.org/downloads.html[Kafka download] page.
+Hortonworks HDP supports Kafka installs using Ambari while Pivotal PHD does not. If you use Hortonworks HDP then you should create a Kafka service using Ambari. If you use Pivotal PHD then you need to install Kafka manually first and provide the connection parameters when you create the Spring XD service. Kafka can be downloaded from the link:https://kafka.apache.org/downloads.html[Kafka download] page.
 
 ==== Using RabbitMQ as Transport
 
@@ -167,7 +167,7 @@ You need to install RabbitMQ manually. You can get more complete instructions fr
 
 [source]
 ----
-# rpm -Uvh http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
+# rpm -Uvh https://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
 # yum install erlang
 # rpm --import https://www.rabbitmq.com/rabbitmq-signing-key-public.asc
 # wget https://www.rabbitmq.com/releases/rabbitmq-server/v3.5.3/rabbitmq-server-3.5.3-1.noarch.rpm
@@ -195,7 +195,7 @@ Open the Ambari UI and log in as `admin`. Select `Admin` -> `Repositories` from 
 
 [width="80%",cols="1m,2m,6m",frame="topbot"]
 |=====================================
-|redhat6 |SPRINGXD-1.3        |http://repo.spring.io/yum-release/spring-xd/1.3/
+|redhat6 |SPRINGXD-1.3        |https://repo.spring.io/yum-release/spring-xd/1.3/
 |=====================================
 
 === Install Spring XD and create Spring XD service using Ambari UI
