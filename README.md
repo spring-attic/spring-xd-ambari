@@ -1,3 +1,5 @@
+# spring-xd-ambari is no longer actively maintained by VMware, Inc.
+
 # Apache Ambari integration for Spring XD
 
 ```text
