@@ -1,7 +1,7 @@
 Upgrading to Spring XD 1.3.1.RELEASE using Ambari
 =================================================
 
-These instructions apply to an installation using link:http://pivotalhd.docs.pivotal.io/docs/install-ambari.html[Pivotal Ambari] as well as link:http://docs.hortonworks.com/HDPDocuments/Ambari-2.0.1.0/index.html[Hortonworks Ambari] using Red Hat Enterprise Linux 6.5 or CentOS 6.5. 
+These instructions apply to an installation using link:https://pivotalhd.docs.pivotal.io/docs/install-ambari.html[Pivotal Ambari] as well as link:https://docs.hortonworks.com/HDPDocuments/Ambari-2.0.1.0/index.html[Hortonworks Ambari] using Red Hat Enterprise Linux 6.5 or CentOS 6.5. 
 
 This document describes the upgrade process. For initial installation instructions please refer to link:InstallingXDwithAmbari.asciidoc[Installing Spring XD using Ambari].
 
@@ -18,7 +18,7 @@ Log in as `root` on each node.
 Add the new Spring XD 1.3 YUM repo:
 [source,bash]
 ----
-wget -nv http://repo.spring.io/yum-release/spring-xd/1.3/spring-xd-1.3.repo -O /etc/yum.repos.d/spring-xd-1.3.repo
+wget -nv https://repo.spring.io/yum-release/spring-xd/1.3/spring-xd-1.3.repo -O /etc/yum.repos.d/spring-xd-1.3.repo
 ----
 
 Perform a regular YUM update operation:

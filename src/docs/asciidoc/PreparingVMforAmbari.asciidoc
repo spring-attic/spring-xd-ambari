@@ -13,7 +13,7 @@ Once you have VirtualBox installed and up and running we can create our virtual 
 
 === Create a CentOS VM
 
-You can download the Centos 6.5 64-bit ISO from one of the mirrors at link:http://mirror.centos.org/centos/6/isos/x86_64/[http://mirror.centos.org/centos/6/isos/x86_64/].
+You can download the Centos 6.5 64-bit ISO from one of the mirrors at link:http://isoredirect.centos.org/centos/6/isos/x86_64/[http://isoredirect.centos.org/centos/6/isos/x86_64/].
 
 Create a new VM with 8GB of memory and 60GB of disk space if you have this available. You can try allocating only 4GB of memory if you are low on resources. Before starting the VM, attach the Live CD image you downloaded to the CD/DVD drive of the new VM. You should also create two network adapters, "Adapter 1" set to "Host-only Adapter" and "Adapter 2" using "NAT" (If you haven't already created a "Host-only Network", you should do that first, under the VirtualBox Preferences Network tab). 
 

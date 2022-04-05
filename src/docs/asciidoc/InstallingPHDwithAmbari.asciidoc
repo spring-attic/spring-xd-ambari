@@ -7,11 +7,11 @@ First we need a VM to work with. Follow the instructions in link:PreparingVMforA
 
 == Installing Ambari Server
 
-We can follow steps 2.2 through 2.8 from the link:http://pivotalhd.docs.pivotal.io/docs/install-ambari.html#installing-ambari-server[Pivotal Ambari Installation Guide]
+We can follow steps 2.2 through 2.8 from the link:https://pivotalhd.docs.pivotal.io/docs/install-ambari.html#installing-ambari-server[Pivotal Ambari Installation Guide]
 
 == Create Hadoop Cluster
 
-We can follow steps 3.2 through 3.6 from the link:http://pivotalhd.docs.pivotal.io/docs/install-ambari.html#install-cluster[Pivotal Ambari Installation Guide]
+We can follow steps 3.2 through 3.6 from the link:https://pivotalhd.docs.pivotal.io/docs/install-ambari.html#install-cluster[Pivotal Ambari Installation Guide]
 
 I installed the PHD-3.0.0.0 and PHD-UTILS-1.1.0 stacks.
 
@@ -19,8 +19,8 @@ My Repository settings are (`hawaii` is the hostname for my YUM repo machine):
 
 [width="80%",cols="1m,3m,6m",frame="topbot"]
 |=====================================
-|redhat6 |PHD-3.0             |http://hawaii/PHD-3.0.0.0
-|        |PHD-UTILS-1.1.0.20  |http://hawaii/PHD-UTILS-1.1.0.20
+|redhat6 |PHD-3.0             |https://hawaii/PHD-3.0.0.0
+|        |PHD-UTILS-1.1.0.20  |https://hawaii/PHD-UTILS-1.1.0.20
 |=====================================
 
 I configured my single-node VMs hostname as the only host.
