@@ -5,7 +5,7 @@
   <artifactId>springxd-plugin</artifactId>
   <version>1.2</version>
   <name>spring-plugin</name>
-  <url>http://maven.apache.org</url>
+  <url>https://maven.apache.org</url>
 
   <properties>
     <base.dir>/var/lib/ambari-server/resources/stacks</base.dir>
